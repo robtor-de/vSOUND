@@ -37,7 +37,7 @@ def cmd_handler(request, cmd, token):
     else:
         return HttpResponseForbidden("Wrong Admin Token, maybe token changed or wrong link")
 
-    return HttpResponse("OK")
+    return redirect("/control")
 
 
 def vol_handler(request, vol):
@@ -57,3 +57,9 @@ def vol_handler(request, vol):
     else:
         return HttpResponse("Volume not in Range")
     return HttpResponse(volume)
+
+
+def admin_site(request):
+    context = {'adm_token': "21242124"}
+
+    return render(request, 'trctl/admin.html', context)

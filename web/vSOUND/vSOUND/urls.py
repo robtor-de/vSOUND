@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^ctl/(?P<cmd>\D{4})-(?P<token>\d{8})/$', views.cmd_handler),
     url(r'^vol=(?P<vol>\d{3})$', views.vol_handler),
+    url(r'^control$', views.admin_site)
 ]
