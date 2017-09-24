@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from trctl import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^ctl/(?P<cmd>\D{4})-(?P<token>\d{8})/$', views.cmd_handler),
+    url(r'^vol=(?P<vol>\d{3})$', views.vol_handler),
 ]

@@ -122,3 +122,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+
+# Settings for the MPD Server
+
+MPD_ADDRESS = '127.0.0.1'
+MPD_PORT = '6600'
+
+# Settings for the Transport Control Admin Interface
+
+ADM_TOKEN = '21242124'
