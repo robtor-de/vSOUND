@@ -18,18 +18,16 @@ def cmd_handler(request, cmd, token):
     if (token == settings.ADM_TOKEN):
         if (cmd == 'play'):
             cli.play()
-            return HttpResponse("OK")
         elif (cmd == 'paus'):
             cli.pause()
-            return HttpResponse("OK")
         elif (cmd == 'next'):
             cli.next()
-            return HttpResponse("OK")
         else:
             cli.pause()
-            return HttpResponse(token)
     else:
         return HttpResponseForbidden("Wrong Admin Token, maybe Token changed or wrong link")
+
+    return HttpResponse("OK")
 
 
 def vol_handler(request, vol):
