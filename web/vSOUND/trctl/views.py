@@ -22,10 +22,20 @@ def cmd_handler(request, cmd, token):
             cli.pause()
         elif (cmd == 'next'):
             cli.next()
+        elif (cmd == 'prev'):
+            cli.previous()
+        elif (cmd == 'stop'):
+            cli.stop()
+        elif (cmd == 'clrp'):
+            cli.clear()
+        elif (cmd == 'updt'):
+            cli.update()
+        elif (cmd == 'rscn'):
+            cli.rescan()
         else:
-            cli.pause()
+            return HttpResponseForbidden("Unknown Command")
     else:
-        return HttpResponseForbidden("Wrong Admin Token, maybe Token changed or wrong link")
+        return HttpResponseForbidden("Wrong Admin Token, maybe token changed or wrong link")
 
     return HttpResponse("OK")
 
