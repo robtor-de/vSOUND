@@ -16,10 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from trctl import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^ctl/(?P<cmd>\D{4})-(?P<token>\d{8})/$', views.cmd_handler),
     url(r'^vol=(?P<vol>\d{3})$', views.vol_handler),
-    url(r'^control$', views.admin_site)
+
+    #Login and Control Page
+    url(r'^login/', auth_views.login, {'template_name': 'trctl/admin_login.html'}),
+    url(r'^control/', views.admin_site)
 ]
