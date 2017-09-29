@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^vol=(?P<vol>\d{3})$', views.vol_handler),
 
     #Login and Control Page
-    url(r'^login/', auth_views.login, {'template_name': 'trctl/admin_login.html'}),
-    url(r'^control/', views.admin_site)
+    url(r'^login/', auth_views.login, {'template_name': 'trctl/admin_login.html', 'redirect_field_name': '/control/'}),
+    url(r'^logout/', auth_views.logout, {'template_name': 'trctl/admin_logout.html', 'redirect_field_name': '/login/'}),
+    url(r'^control/', views.admin_site),
 ]

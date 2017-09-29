@@ -37,7 +37,7 @@ def cmd_handler(request, cmd, token):
     else:
         return HttpResponseForbidden("Wrong Admin Token, maybe token changed or wrong link")
 
-    return redirect("/control")
+    return redirect("/control/")
 
 
 def vol_handler(request, vol):
@@ -60,6 +60,9 @@ def vol_handler(request, vol):
 
 
 def admin_site(request):
-    context = {'adm_token': "21242124"}
 
-    return render(request, 'trctl/admin.html', context)
+    if request.user.is_authenticated():
+        context = {'adm_token': "21242124"}
+        return render(request, 'trctl/admin.html', context)
+    else:
+        return HttpResponse("Leider nicht angemeldet")
