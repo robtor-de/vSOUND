@@ -14,7 +14,6 @@ def cmd_handler(request, cmd):
     except:
         return redirect("/static/mpd_conn_error.html")
 
-    #Check if the Admin token exists --> TODO: Change token verification over http request and not via url
     if (request.user.is_authenticated):
         if (cmd == 'play'):
             cli.play()
@@ -33,9 +32,9 @@ def cmd_handler(request, cmd):
         elif (cmd == 'rscn'):
             cli.rescan()
         else:
-            return HttpResponseForbidden("Unknown Command")
+            return render(request, 'error.html', {'error_text': 'Unbekannter MPD-Befehl'})
     else:
-        return HttpResponseForbidden("Wrong Admin Token, maybe token changed or wrong link")
+        return redirect("/login/")
 
     return redirect("/control/")
 
@@ -60,7 +59,6 @@ def vol_handler(request, vol):
 
 
 def admin_site(request):
-
     if request.user.is_authenticated():
         context = {'adm_token': "21242124"}
         return render(request, 'trctl/admin.html', context)
