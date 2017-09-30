@@ -12,7 +12,7 @@ def cmd_handler(request, cmd):
     try:
         MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
     except:
-        return redirect("/static/mpd_conn_error.html")
+        return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
 
     if (request.user.is_authenticated):
         if (cmd == 'play'):
@@ -49,7 +49,7 @@ def vol_handler(request, vol):
         try:
             MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
         except:
-            return redirect("/static/mpd_conn_error.html")
+            return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
 
         cli.setvol(volume)
         cli.close()
