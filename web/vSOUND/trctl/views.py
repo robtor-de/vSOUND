@@ -3,6 +3,7 @@ from mpd import MPDClient
 from django.conf import settings
 from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseForbidden
+from trctl.forms import searchForm
 
 #Command handlers for the Admin Control Page
 
@@ -74,7 +75,7 @@ def id_handler(request, songid):
 
 #View for the Admin Control Site
 def admin_site(request):
-    if request.user.is_authenticated():
+    if (request.user.is_authenticated):
         cli = MPDClient()
         try:
             MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
@@ -91,3 +92,18 @@ def admin_site(request):
         return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song})
     else:
         return redirect("/login/")
+
+
+#Search and add to Playlist function
+
+def search(request):
+    if (request.user.is_authenticated):
+        if(request.method == 'POST'):
+            form = searchForm(request.POST)
+
+            if(form.is_valid()):
+                return HttpResponse(form.cleaned_data["search_text"])
+        else:
+            form = searchForm()
+
+        return render(request, 'trctl/search.html', {'form': form})
