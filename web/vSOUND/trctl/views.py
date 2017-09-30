@@ -35,6 +35,7 @@ def cmd_handler(request, cmd):
             return render(request, 'error.html', {'error_text': 'Unbekannter MPD-Befehl'})
     else:
         return redirect("/login/")
+    cli.close()
     return redirect("/control/")
 
 
@@ -62,3 +63,10 @@ def admin_site(request):
         return render(request, 'trctl/admin.html')
     else:
         return redirect("/login/")
+
+def playlist(request, cmd):
+    cli = MPDClient()
+    try:
+        MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+    except:
+        return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
