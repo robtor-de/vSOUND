@@ -35,32 +35,30 @@ def cmd_handler(request, cmd):
             return render(request, 'error.html', {'error_text': 'Unbekannter MPD-Befehl'})
     else:
         return redirect("/login/")
-
     return redirect("/control/")
 
 
 def vol_handler(request, vol):
     volume = int(vol)
 
-    if(volume >= 0 and volume <= 100):
-        cli = MPDClient()
-
-        #Establish Connection to MPDServer or throw Error
-        try:
-            MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
-        except:
-            return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
-
-        cli.setvol(volume)
-        cli.close()
+    if(request.user.is_authenticated):
+        if(volume >= 0 and volume <= 100):
+            cli = MPDClient()
+            try:
+                MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+            except:
+                return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
+            cli.setvol(volume)
+            cli.close()
+        else:
+            return render(request, 'error.html', {'error_text': 'Lautstärke nicht im gültigen Bereich'})
     else:
-        return HttpResponse("Volume not in Range")
-    return HttpResponse(volume)
+        return redirect("/login/")
+    return redirect("/control/")
 
 
 def admin_site(request):
     if request.user.is_authenticated():
-        context = {'adm_token': "21242124"}
-        return render(request, 'trctl/admin.html', context)
+        return render(request, 'trctl/admin.html')
     else:
         return HttpResponse("Leider nicht angemeldet")
