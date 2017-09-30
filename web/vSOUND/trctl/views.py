@@ -78,7 +78,14 @@ def id_handler(request, songid):
 #Admin site login check
 def admin_site(request):
     if request.user.is_authenticated():
-        return render(request, 'trctl/admin.html')
+        cli = MPDClient()
+        try:
+            MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+        except:
+            return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
+
+        playlist = cli.playlistinfo()
+        return render(request, 'trctl/admin.html', {"playlist": playlist})
     else:
         return redirect("/login/")
 

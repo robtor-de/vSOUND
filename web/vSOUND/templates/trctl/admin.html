@@ -15,3 +15,20 @@
 <a href="/vol=050">50</a><br>
 <a href="/vol=075">75</a><br>
 <a href="/vol=100">100</a><br>
+
+<br>
+<br>
+<table>
+
+{% for entry in playlist %}
+
+<tr>
+  <td>{{ entry.id }}</td>
+  <td><a href="/id={{ entry.id }}">{{ entry.title }}</a></td>
+  <td>{{ entry.artist }}</td>
+</tr>
+
+
+{% endfor %}
+
+</table>
