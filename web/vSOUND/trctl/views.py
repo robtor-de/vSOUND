@@ -61,4 +61,4 @@ def admin_site(request):
     if request.user.is_authenticated():
         return render(request, 'trctl/admin.html')
     else:
-        return HttpResponse("Leider nicht angemeldet")
+        return redirect("/login/")
