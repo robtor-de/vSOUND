@@ -102,7 +102,14 @@ def search(request):
             form = searchForm(request.POST)
 
             if(form.is_valid()):
-                return HttpResponse(form.cleaned_data["search_text"])
+                cli = MPDClient()
+                try:
+                    MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+                except:
+                    return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
+
+                result = cli.search("any", form.cleaned_data["search_text"])
+                return HttpResponse(result)
         else:
             form = searchForm()
 
