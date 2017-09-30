@@ -82,3 +82,4 @@ def playlist(request):
         return render(request, "trctl/playlist.html", {"playlist": info})
     else:
         cli.close()
+        return redirect("/login/")

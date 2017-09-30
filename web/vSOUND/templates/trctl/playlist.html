@@ -1,5 +1,14 @@
-{% for t in playlist %}
+<table>
 
-<tt>{{ t.title }}</tt><br>
+{% for entry in playlist %}
+
+<tr>
+  <td>{{ entry.id }}</td>
+  <td>{{ entry.title }}</td>
+  <td>{{ entry.artist }}</td>
+</tr>
+
 
 {% endfor %}
+
+</table>
