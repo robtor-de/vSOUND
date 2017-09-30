@@ -4,6 +4,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseForbidden
 
+#Command handlers for the Admin Control Page
 
 def cmd_handler(request, cmd):
     cli = MPDClient()
@@ -58,12 +59,16 @@ def vol_handler(request, vol):
     return redirect("/control/")
 
 
+
+
+#Admin site login check
 def admin_site(request):
     if request.user.is_authenticated():
         return render(request, 'trctl/admin.html')
     else:
         return redirect("/login/")
 
+#Playlist request
 def playlist(request):
     cli = MPDClient()
     try:
@@ -73,6 +78,7 @@ def playlist(request):
 
     if(request.user.is_authenticated):
         info = cli.playlistinfo()
+        cli.close()
         return render(request, "trctl/playlist.html", {"playlist": info})
-
-    return HttpResponse(info)
+    else:
+        cli.close()
