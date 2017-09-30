@@ -133,6 +133,4 @@ MPD_PORT = '6600'
 
 # Settings for the Transport Control Admin Interface
 
-ADM_TOKEN = '21242124'
-
 LOGIN_REDIRECT_URL = '/control/'

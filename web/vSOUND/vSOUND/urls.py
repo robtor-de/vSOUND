@@ -20,7 +20,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^ctl/(?P<cmd>\D{4})-(?P<token>\d{8})/$', views.cmd_handler),
+
+    #Direct control urls that accept commands
+    url(r'^ctl/(?P<cmd>\D{4})/$', views.cmd_handler),
     url(r'^vol=(?P<vol>\d{3})$', views.vol_handler),
 
     #Login and Control Page

@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseForbidden
 
 
-def cmd_handler(request, cmd, token):
+def cmd_handler(request, cmd):
     cli = MPDClient()
 
     #Establish Connection to MPDServer or throw Error
@@ -15,7 +15,7 @@ def cmd_handler(request, cmd, token):
         return redirect("/static/mpd_conn_error.html")
 
     #Check if the Admin token exists --> TODO: Change token verification over http request and not via url
-    if (token == settings.ADM_TOKEN):
+    if (request.user.is_authenticated):
         if (cmd == 'play'):
             cli.play()
         elif (cmd == 'paus'):
