@@ -85,6 +85,12 @@ def admin_site(request):
             return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
 
         playlist = cli.playlistinfo()
-        return render(request, 'trctl/admin.html', {"playlist": playlist})
+        status = cli.status()
+        stats = cli.stats()
+
+        current_song = playlist[int(status['song'])]["title"]
+
+
+        return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song})
     else:
         return redirect("/login/")

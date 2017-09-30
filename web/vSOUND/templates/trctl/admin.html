@@ -6,10 +6,13 @@
 <a href="/ctl/clrp">Playlist löschen</a>
 <a href="/ctl/stop">Biblithek aktualisieren</a>
 <a href="/ctl/stop">Bibliothek neu einlesen</a>
-
-<br>
 <br>
 <b>---------------</b><br>
+<p>Status: {{ status.volume }}% | {{ status.state }} | {{ status.songid }} </p>
+<b>---------------</b><br>
+<p>Server: {{ stats.songs }} Songs | {{ stats.playtime }}s Spielzeit</p>
+<b>---------------</b><br>
+<p>Spielt gerade </b>{{ song }}</b></p>
 
 <a href="/vol=025">25</a><br>
 <a href="/vol=050">50</a><br>
