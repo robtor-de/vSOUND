@@ -59,6 +59,20 @@ def vol_handler(request, vol):
     return redirect("/control/")
 
 
+def id_handler(request, songid):
+    if(request.user.is_authenticated):
+        cli = MPDClient()
+        try:
+            MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+        except:
+            return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
+
+        cli.playid(songid)
+        cli.close()
+        return redirect("/control/")
+
+    else:
+        return redirect("/login/")
 
 
 #Admin site login check
