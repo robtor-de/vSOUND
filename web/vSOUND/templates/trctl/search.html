@@ -4,12 +4,15 @@
   <input type="submit" value="Suchen"/>
 </form>
 
-<table>
+<form method="post" action="/add/">
+{% csrf_token %}
+
 {% for entry in result %}
 
-<tr>
-  <td><a href="/id={{ entry.id }}">{{ entry.title }}</a></td>
-</tr>
+<input type="radio" name="add_song" value="{{entry.file}}">{{entry.title}}</input><br>
+
 
 {% endfor %}
-</table>
+<br>
+<input type="submit" value="Hinzufügen">
+</form>

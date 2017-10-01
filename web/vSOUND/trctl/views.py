@@ -115,21 +115,25 @@ def search(request):
                     return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
 
                 result = cli.search("any", form.cleaned_data["search_text"])
-                return HttpResponse(result)
+                return render(request, 'trctl/search.html', {'result': result, 'form': form })
         else:
             form = searchForm()
 
         return render(request, 'trctl/search.html', {'form': form})
 
-def uri_handler(request, songfile):
+def add(request):
     if(request.user.is_authenticated):
         cli = MPDClient()
         try:
             MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
         except:
             return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
-        cli.add(songfile)
+
+        try:
+            cli.add(request.POST["add_song"])
+        except:
+            return render(request, 'error.html', {'error_text': 'Fehler beim Hinzufügen des Liedes'})
         cli.close()
-        return HttpResponse(songfile)
+        return redirect("/control/search/")
     else:
         return redirect("/login/")
