@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^ctl/(?P<cmd>\D{4})/$', views.cmd_handler),
     url(r'^vol=(?P<vol>\d{3})$', views.vol_handler),
     url(r'^id=(?P<songid>\d{1,10})', views.id_handler),
+    url(r'^add=(?P<songfile>\[(w.*)=])', views.uri_handler),
 
     #Login and Control Page
     url(r'^login/', auth_views.login, {'template_name': 'trctl/admin_login.html', 'redirect_field_name': '/control/'}),

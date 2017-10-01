@@ -120,3 +120,16 @@ def search(request):
             form = searchForm()
 
         return render(request, 'trctl/search.html', {'form': form})
+
+def uri_handler(request, songfile):
+    if(request.user.is_authenticated):
+        cli = MPDClient()
+        try:
+            MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+        except:
+            return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
+        cli.add(songfile)
+        cli.close()
+        return HttpResponse(songfile)
+    else:
+        return redirect("/login/")
