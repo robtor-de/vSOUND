@@ -49,7 +49,10 @@ def vol_handler(request, vol):
                 MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
             except:
                 return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
-            cli.setvol(volume)
+            try:
+                cli.setvol(volume)
+            except:
+                return render(request, 'error.html', {'error_text': 'Fehler beim Sezten der Lautstärke, vielleicht wird aktuell nichts wiedergegeben'})
             cli.close()
         else:
             return render(request, 'error.html', {'error_text': 'Lautstärke nicht im gültigen Bereich'})
@@ -86,7 +89,10 @@ def admin_site(request):
         status = cli.status()
         stats = cli.stats()
 
-        current_song = playlist[int(status['song'])]["title"]
+        try:
+            current_song = playlist[int(status['song'])]["title"]
+        except:
+            current_song = "--"
 
 
         return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song})
