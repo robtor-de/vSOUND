@@ -1,10 +1,16 @@
 {% extends "base_template.html" %}
 
+{% block title %}vSOUND|Admin{% endblock %}
+
+
+
+{% block content %}
+
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
 
-{% block content %}
+
 <form method="post" action="/login/">
 {% csrf_token %}
 <table>

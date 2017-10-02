@@ -4,10 +4,31 @@
   <head>
     <title>{% block title %}vSOUND{% endblock %}</title>
     <link href="/static/favicon.png" rel="icon">
+    <link href="/static/admin_style.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 
-
   <body>
+
+    <style>
+      .nav_bar {
+        width: 100%;
+        height: auto;
+        background-color: blue;
+      }
+      .bar_img {
+        width: auto;
+        height: auto;
+        display: inline;
+        align-self: flex-start;
+      }
+    </style>
+
+    <div class="nav_bar">
+      <img class="bar_img" src="/static/favicon.png">
+      <h1 class="bar_title">vSOUND</h1>
+    </div>
+
     {% block content %}{% endblock %}
   </body>
 </html>
