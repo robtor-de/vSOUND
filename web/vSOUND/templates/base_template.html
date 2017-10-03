@@ -6,22 +6,45 @@
     <link href="/static/favicon.png" rel="icon">
     <link href="/static/admin_style.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Robin Dietzel">
+    <meta name="description" content="MPD Web client with voting functionality">
   </head>
 
   <body>
 
     <style>
+      body {
+          margin: 0;
+          padding: 0;
+      }
+
       .nav_bar {
+        position: fixed;
+        top: 0;
         width: 100%;
-        height: auto;
+        height: 15vh;
         background-color: blue;
+        margin: 0;
+        padding: 0;
       }
       .bar_img {
         width: auto;
-        height: auto;
-        display: inline;
+        height: 10vh;
+        display: inline-block;
         align-self: flex-start;
       }
+
+      .bar_title {
+        display: inline;
+        z-index: 1;
+      }
+
+      .site_content {
+        position: relative;
+        top: 15vh;
+        z-index: -1;
+      }
+
     </style>
 
     <div class="nav_bar">
@@ -29,6 +52,47 @@
       <h1 class="bar_title">vSOUND</h1>
     </div>
 
-    {% block content %}{% endblock %}
+    <div class="site_content">
+        {% block content %}{% endblock %}
+
+        <pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          favico
+
+      </pre>
+    </div>
+
+
   </body>
 </html>
