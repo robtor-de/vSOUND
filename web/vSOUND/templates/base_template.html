@@ -30,6 +30,7 @@
 
       .nav_bar {
         position: fixed;
+        display: block;
         top: 0;
         left: 0;
         right: 0;
@@ -60,9 +61,17 @@
         vertical-align: middle;
         width: auto;
         display: inline;
-
       }
 
+      .menu {
+        height: 10vh;
+        width: 10vh;
+      }
+
+      .menu_img {
+        height: 10vh;
+        width: 10vh;
+      }
       .site_content {
         position: relative;
         top: 15vh;
@@ -74,6 +83,7 @@
     <div class="nav_bar">
       <img class="bar_img" src="/static/favicon.png">
       <h1 class="bar_title">vSOUND</h1>
+      <button class="menu"><img class="menu_img" src="/static/menu_icon.png"></button>
     </div>
 
     <div class="site_content">
