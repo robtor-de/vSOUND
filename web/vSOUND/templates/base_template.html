@@ -33,7 +33,7 @@
         left: 0;
         right: 0;
         width: auto;
-        height: 15vh;
+        height: 20vw;
         background-color: #00838F;
         margin: 0;
         padding: 0;
@@ -43,7 +43,7 @@
 
       .bar_img {
         width: auto;
-        height: 10vh;
+        height: 12vh;
         display: inline;
         position: static;
         vertical-align: middle;
@@ -53,7 +53,7 @@
 
       .bar_title {
         font-family: "Arial";
-        font-size: 10vh;
+        font-size: 12vw;
         font-weight: bold;
         color: white;
         vertical-align: middle;
@@ -68,20 +68,38 @@
         background-position: center;
         background-color: inherit;
         border: none;
-        height: 10vh;
-        width: 10vh;
-        vertical-align: middle;
+        height: 20vw;
+        width: 17vw;
         display: inline;
         float: right;
-
       }
 
-
-      }
-      .site_content {
-        position: relative;D
+      .dropd-content {
+        display: none;
+        position: absolute;
+        right: 0;
         top: 15vh;
+        z-index: 10;
+        background-color: #4FB3BF;
+        box-shadow: 2px 2px 5px;
+      }
 
+      .dropd-content a {
+        display: block;
+        
+      }
+
+      .menu:hover .dropd-content {
+          display: block;
+      }
+
+      .menu:hover .menu {
+        background-color: red;
+      }
+
+      .site_content {
+        position: relative;
+        top: 20vh;
       }
 
     </style>
@@ -91,6 +109,11 @@
       <img class="bar_img" src="/static/favicon.png">
       <h1 class="bar_title">vSOUND</h1>
       <button class="menu">
+        <div class="dropd-content">
+          <a href="/logout/">Abmelden</a>
+          <a href="/playlist/">Playlist</a>
+          <a href="/control/">Steuerung</a>
+        </div>
     </div>
 
     <div class="site_content">
