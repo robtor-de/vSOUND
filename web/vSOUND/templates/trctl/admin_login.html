@@ -1,13 +1,18 @@
-{% extends "base_template.html" %}
+<!DOCTYPE html>
 
-{% block title %}vSOUND|Admin{% endblock %}
+<html>
+<head>
+  <title>vSOUND|Login</title>
+  <link href="/static/favicon.png" rel="icon">
+  <link href="/static/bootstrap.css" rel="stylesheet" type="text/css">
+</head>
 
-
-
-{% block content %}
+<body>
 
 {% if form.errors %}
+<div class="alert alert-danger" role="alert">
 <p>Your username and password didn't match. Please try again.</p>
+</div>
 {% endif %}
 
 
@@ -27,4 +32,6 @@
 <input type="submit" value="login" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
-{% endblock %}
+
+</body>
+</html>
