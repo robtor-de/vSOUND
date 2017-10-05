@@ -18,10 +18,6 @@ Benutzername oder Passwort stimmt nicht
 <form method="post" action="/login/">
  {% csrf_token %}
 
- <div class="form-group">
-   <label for="usernameInput">Benutzername</label>
-   {{ form.username }}
- </div>
 <table>
 <tr>
     <td>{{ form.username.label_tag }}</td>
