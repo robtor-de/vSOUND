@@ -1,6 +1,38 @@
+<!DOCTYPE html>
+
+<html>
 <head>
   <meta http-equiv="refresh" content="20"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>vSOUND|Admin</title>
+  <link rel="stylesheet" type="text/css" href="/static/bootstrap.css">
+  <link rel="icon" href="/static/favicon.png">
 </head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">vSound-Admin</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavBar" aria-controls="mainNavBar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavBar">
+      <form class="form-inline">
+        <button class="btn btn-outline-primary mr-sm-2 btn-sm" type="button" onclick="location.href = '/ctl/updt'">Aktualisieren</button>
+        <button class="btn btn-outline-primary mr-sm-2 btn-sm" type="button" onclick="location.href = '/ctl/rscn'">Neu einlesen</button>
+
+        <button class="btn btn-outline-success mr-sm-2" type="button" onclick="location.href = '/control/search/'">Hinzufügen</button>
+        <button class="btn btn-outline-danger mr-sm-2" type="button" onclick="location.href = '/logout/'">Abmelden</button>
+      </form>
+
+    </div>
+
+
+
+</nav>
+
+
 
 <a href="/ctl/play">Play</a>
 <a href="/ctl/paus">Pause</a>
@@ -41,3 +73,8 @@
 {% endfor %}
 
 </table>
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="/static/bootstrap.js"></script>
+</body>
+</html>
