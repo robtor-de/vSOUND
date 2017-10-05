@@ -11,13 +11,17 @@
 
 {% if form.errors %}
 <div class="alert alert-danger" role="alert">
-<p>Your username and password didn't match. Please try again.</p>
+Benutzername oder Passwort stimmt nicht
 </div>
 {% endif %}
 
-
 <form method="post" action="/login/">
-{% csrf_token %}
+ {% csrf_token %}
+
+ <div class="form-group">
+   <label for="usernameInput">Benutzername</label>
+   {{ form.username }}
+ </div>
 <table>
 <tr>
     <td>{{ form.username.label_tag }}</td>
