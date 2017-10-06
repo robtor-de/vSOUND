@@ -12,30 +12,26 @@
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">vSound-Admin</a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavBar" aria-controls="mainNavBar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="mainNavBar">
+    <a class="navbar-brand" href="#">v-Admin</a>
       <form class="form-inline">
-        <button class="btn btn-outline-success mr-sm-2" type="button" onclick="location.href = '/control/search/'">Hinzufügen</button>
-        <button class="btn btn-outline-danger mr-sm-2" type="button" onclick="location.href = '/logout/'">Abmelden</button>
+        <button class="btn btn-outline-success mr-sm-3 mr-2" type="button" onclick="location.href = '/control/search/'">Hinzufügen</button>
+        <button class="btn btn-danger" type="button" onclick="location.href = '/logout/'">Abmelden</button>
       </form>
+  </nav>
 
-    </div>
-
-</nav>
-
-<div class="btn-group" role="group" aria-label="Transport Control">
-  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/prev'">Zurück</button>
-  {% if status.state == 'play' %}
-  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/paus'">Pause</button>
-  {% else %}
-  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/play'">Play</button>
-  {% endif %}
-  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/next'">Weiter</button>
-</div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom justify-content-center">
+      <form class="form-inline">
+        <div class="btn-group" role="group" aria-label="Transport Control">
+          <button type="button" class="btn btn-primary" onclick="location.href = '/ctl/prev'">Zurück</button>
+          {% if status.state == 'play' %}
+          <button type="button" class="btn btn-success" onclick="location.href = '/ctl/paus'">Pause</button>
+          {% else %}
+          <button type="button" class="btn btn-warning" onclick="location.href = '/ctl/play'">Play</button>
+          {% endif %}
+          <button type="button" class="btn btn-info" onclick="location.href = '/ctl/next'">Weiter</button>
+        </div>
+      </form>
+  </nav>
 
 <div class="btn-group" role="group" aria-label="Playlist Control">
   <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/stop'">Stop</button>
@@ -48,13 +44,6 @@
 </div>
 
 
-<a href="/ctl/stop">Stop</a>
-<a href="/ctl/clrp">Playlist löschen</a>
-<a href="/ctl/updt">Biblithek aktualisieren</a>
-<a href="/ctl/rscn">Bibliothek neu einlesen</a>
-<br><a href="/control/search/">Suchen</a>
-<br><a href="/logout/">ABMELDEN</a>
-<br>
 <b>---------------</b><br>
 <p>Status: {{ status.volume }}% | {{ status.state }} | {{ status.songid }} </p>
 <b>---------------</b><br>
