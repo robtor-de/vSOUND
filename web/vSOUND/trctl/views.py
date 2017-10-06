@@ -91,11 +91,13 @@ def admin_site(request):
 
         try:
             current_song = playlist[int(status['song'])]["title"]
+            current_artist = playlist[int(status['song'])]["artist"]
         except:
-            current_song = "--"
+            current_song = ""
+            current_artist = ""
 
 
-        return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song})
+        return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song, "artist": current_artist})
     else:
         return redirect("/login/")
 
