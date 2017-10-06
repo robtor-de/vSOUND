@@ -19,9 +19,6 @@
     </button>
     <div class="collapse navbar-collapse" id="mainNavBar">
       <form class="form-inline">
-        <button class="btn btn-outline-primary mr-sm-2 btn-sm" type="button" onclick="location.href = '/ctl/updt'">Aktualisieren</button>
-        <button class="btn btn-outline-primary mr-sm-2 btn-sm" type="button" onclick="location.href = '/ctl/rscn'">Neu einlesen</button>
-
         <button class="btn btn-outline-success mr-sm-2" type="button" onclick="location.href = '/control/search/'">Hinzufügen</button>
         <button class="btn btn-outline-danger mr-sm-2" type="button" onclick="location.href = '/logout/'">Abmelden</button>
       </form>
@@ -31,19 +28,26 @@
 </nav>
 
 <div class="btn-group" role="group" aria-label="Transport Control">
-  <button type="button" class="btn btn-secondary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-  <button type="button" class="btn btn-secondary">Pause</button>
-  <button type="button" class="btn btn-secondary">Stop</button>
-  <button type="button" class="btn btn-secondary">Weiter</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/prev'">Zurück</button>
+  {% if status.state == 'play' %}
+  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/paus'">Pause</button>
+  {% else %}
+  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/play'">Play</button>
+  {% endif %}
+  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/next'">Weiter</button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Playlist Control">
+  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/stop'">Stop</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/clrp'">Playlist löschen</button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Playlist Control">
+  <button type="button" class="btn btn-secondary btn-sm" onclick="location.href = '/ctl/updt'">Bibliothek aktualisieren</button>
+  <button type="button" class="btn btn-secondary btn-sm" onclick="location.href = '/ctl/rscn'">Bibliothek neu einlesen</button>
 </div>
 
 
-
-
-<a href="/ctl/play">Play</a>
-<a href="/ctl/paus">Pause</a>
-<a href="/ctl/next">Weiter</a>
-<a href="/ctl/prev">Zurück</a>
 <a href="/ctl/stop">Stop</a>
 <a href="/ctl/clrp">Playlist löschen</a>
 <a href="/ctl/updt">Biblithek aktualisieren</a>
