@@ -41,16 +41,24 @@ def cmd_handler(request, cmd):
 
 
 def vol_handler(request, vol):
-    volume = int(vol)
     if(request.user.is_authenticated):
-        if(volume >= 0 and volume <= 100):
+        if(vol == 'u' or vol == 'd' or vol == 'm'):
             cli = MPDClient()
             try:
                 MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
             except:
                 return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
+            status = cli.status()
+            old_vol = int(status['volume'])
             try:
-                cli.setvol(volume)
+                if(vol == 'u'):
+                    cli.setvol(old_vol + 2)
+                elif(vol == 'd'):
+                    cli.setvol(old_vol - 2)
+                elif(vol == 'm'):
+                    cli.setvol(0)
+                else:
+                    return render(request, 'error.html', {'error_text': 'Unbekannter Befehl'})
             except:
                 return render(request, 'error.html', {'error_text': 'Fehler beim Sezten der Lautstärke, vielleicht wird aktuell nichts wiedergegeben'})
             cli.close()
