@@ -23,7 +23,7 @@ urlpatterns = [
 
     #Direct control urls that accept commands
     url(r'^ctl/(?P<cmd>\D{4})/$', views.cmd_handler),
-    url(r'^vol=(?P<vol>\d{3})$', views.vol_handler),
+    url(r'^vol=(?P<vol>\D{1})$', views.vol_handler),
     url(r'^id=(?P<songid>\d{1,10})', views.id_handler),
     url(r'^add/$', views.add),
 
