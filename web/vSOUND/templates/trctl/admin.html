@@ -34,43 +34,31 @@
       </form>
   </nav>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-right">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-start">
     <div class="form-inline">
       <div class="btn-group">
-        <button type="button" class="btn btn-warning" onclick="location.href = '/ctl/stop'">Stop</button>
-        <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-warning px-5" onclick="location.href = '/ctl/stop'">Stop</button>
+        <button type="button" class="btn btn-outline-warning dropdown-toggle dropdown-toggle-split px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="sr-only">Weitere optionen</span>
         </button>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="/ctl/clrp">Playlist löschen</a>
+        <a class="dropdown-item" href="/ctl/clrp">Wiedergabeliste löschen</a>
+        <a class="dropdown-item" href="/ctl/updt">Bibliothek aktualisieren</a>
+        <a class="dropdown-item" href="/ctl/rscn">Bibliothek neu einlesen</a>
       </div>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-danger btn-sm ml-2">-</button>
+      <button type="button" class="btn btn-success btn-sm">+</button>
     </div>
   </div>
 </nav>
 
-<div class="btn-group">
-  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Action
-  </button>
-  <div class="dropdown-menu">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="#">Separated link</a>
-  </div>
+<div class="progress mx-3">
+  <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ status.volume }}%" aria-valuenow="{{ status.volume }}" aria-valuemin="0" aria-valuemax="100">{{ status.volume }}%</div>
 </div>
 
-<div class="btn-group" role="group" aria-label="Playlist Control">
-  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/stop'">Stop</button>
-  <button type="button" class="btn btn-secondary" onclick="location.href = '/ctl/clrp'">Playlist löschen</button>
-</div>
-
-<div class="btn-group" role="group" aria-label="Playlist Control">
-  <button type="button" class="btn btn-secondary btn-sm" onclick="location.href = '/ctl/updt'">Bibliothek aktualisieren</button>
-  <button type="button" class="btn btn-secondary btn-sm" onclick="location.href = '/ctl/rscn'">Bibliothek neu einlesen</button>
-</div>
-
+<hr>
 
 <b>---------------</b><br>
 <p>Status: {{ status.volume }}% | {{ status.state }} | {{ status.songid }} </p>
@@ -102,6 +90,7 @@
 </table>
 
 <script src="/static/js/jquery.js"></script>
+<script src="/static/js/popper.js"></script>
 <script src="/static/js/bootstrap.js"></script>
 </body>
 </html>
