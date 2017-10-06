@@ -47,51 +47,68 @@
         <a class="dropdown-item" href="/ctl/rscn">Bibliothek neu einlesen</a>
       </div>
     </div>
+    </div>
+    <span class="mx-auto"></span>
+    <div class="inline-form">
     <div class="btn-group">
       <button type="button" class="btn btn-danger btn-sm ml-2">Leiser</button>
-      <button type="button" class="btn btn-success btn-sm">Lauter</button>
+      <button type="button" class="btn btn-success btn-sm mr-1">Lauter</button>
     </div>
   </div>
 </nav>
 
-<div class="progress mx-3">
-  {% if status.volume == '-1' %}
-    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Keine Wiedergabe</div>
-  {% else %}
-    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ status.volume }}%" aria-valuenow="{{ status.volume }}" aria-valuemin="0" aria-valuemax="100">{{ status.volume }}%</div>
-  {% endif %}
+<div class="fluid-container">
+  <div class="progress mx-3">
+    {% if status.volume == '-1' %}
+      <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Keine Wiedergabe</div>
+      {% else %}
+      <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ status.volume }}%" aria-valuenow="{{ status.volume }}" aria-valuemin="0" aria-valuemax="100">{{ status.volume }}%</div>
+      {% endif %}
+    </div>
 </div>
 
 <hr>
 
-<b>---------------</b><br>
-<p>Status: {{ status.volume }}% | {{ status.state }} | {{ status.songid }} </p>
-<b>---------------</b><br>
-<p>Server: {{ stats.songs }} Songs | {{ stats.playtime }}s Spielzeit</p>
-<b>---------------</b><br>
-<p>Spielt gerade </b>{{ song }}</b></p>
+<div class="container">
+  <p class="text-center text-dark">
+    {{ song }} - <i class="text-primary">{{ artist }}</i>
+  </p>
+</div>
+<hr>
 
-<a href="/vol=025">25</a><br>
-<a href="/vol=050">50</a><br>
-<a href="/vol=075">75</a><br>
-<a href="/vol=100">100</a><br>
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Titel</th>
+        <th>Künstler</th>
+      <tr>
+    </thead>
 
-<br>
-<br>
-<table>
+    {% for entry in playlist %}
+      {% if status.songid == entry.id %}
+        <tr class="table-success">
+      {% else %}
+        <tr>
+      {% endif %}
+        <td>{{ entry.id }}</td>
+        <td><a href="/id={{ entry.id }}">{{ entry.title }}</a></td>
+        <td>{{ entry.artist }}</td>
+      </tr>
+    {% endfor %}
+ </table>
+</div>
 
-{% for entry in playlist %}
 
-<tr>
-  <td>{{ entry.id }}</td>
-  <td><a href="/id={{ entry.id }}">{{ entry.title }}</a></td>
-  <td>{{ entry.artist }}</td>
-</tr>
+<hr>
+<div class="container">
+  <p class="text-center text-secondary text-italic">
+    Datenbank enthält {{stats.songs}} Songs | {{stats.playtime}} Sekunden spielzeit
+  </p>
+</div>
 
 
-{% endfor %}
-
-</table>
 
 <script src="/static/js/jquery.js"></script>
 <script src="/static/js/popper.js"></script>
