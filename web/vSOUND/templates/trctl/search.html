@@ -11,30 +11,40 @@
 <body>
 
   <nav class="navbar navbar-dark bg-dark">
-  <form class="form-inline" action="/control/search" method="post">
+  <form class="form-inline" action="/control/search/" method="post">
     {% csrf_token %}
     {{ form.search_text }}
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suchen</button>
   </form>
 </nav>
 
-<form action="/control/search/" method="post">
-  {% csrf_token %}
-  {{ form }}
-  <input type="submit" value="Suchen"/>
-</form>
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Titel</th>
+        <th>Künstler</th>
+        <th>+</th>
+      </tr>
+    </thead>
 
-<form method="post" action="/add/">
-{% csrf_token %}
-<input type="submit" value="Hinzufügen"><br>
-
-{% for entry in result %}
-
-<input type="radio" name="add_song" value="{{entry.file}}">{{entry.title}}</input><br>
-
-
-
-{% endfor %}
-<br>
-
-</form>
+    {% for entry in result %}
+      <tr>
+        <td>{{ entry.title }}</td>
+        <td>{{ entry.artist }}</td>
+        <td>
+          <form class="form-inline" method="post" action="/add/">
+            {% csrf_token %}
+            <input type="hidden" name="add_song" value="{{ entry.file }}">
+            <button class="btn btn-outline-success btn-sm mx-1" type="submit">+</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/popper.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+</body>
+</html>
