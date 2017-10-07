@@ -12,7 +12,8 @@ def connect_mpd():
     try:
         MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
     except:
-        print("connection error")
+        #TODO: Add here better support
+        print("MPD-Error")
 
 
 #Show the login page eventually with additional infos
