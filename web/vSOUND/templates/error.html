@@ -1,1 +1,26 @@
-{{ error_text }}
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="refresh" content="20"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>vSOUND|FEHLER</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+  <link rel="icon" href="/static/favicon.png">
+</head>
+
+<body>
+  <div class="container mt-5">
+    <div class="alert alert-danger">
+      {{ error_text }}
+    </div>
+    <button type="button" class="btn btn-primary my-1 btn-block" onclick="location.href = '/login/'">Zurück</button>
+  </div>
+
+
+
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/popper.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+</body>
+</html>
