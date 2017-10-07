@@ -4,6 +4,30 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseForbidden
 from trctl.forms import searchForm
+from django.contrib.auth import authenticate, login
+
+#Show the login page eventually with additional infos
+
+def login_screen(request):
+    if (request.user.is_authenticated):
+        return redirect("/control/")
+    else:
+        return render(request, 'trctl/admin_login.html')
+    return render(request, 'trctl/admin_login.html')
+
+def auth_handler(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            return redirect("/control/")
+        else:
+            return render(request, 'trctl/admin_login.html', {'error_text': 'Benutzerkonto gesperrt!'})
+    else:
+        return render(request, 'trctl/admin_login.html', {'error_text': 'Benutzername oder Passwort falsch'})
+
 
 #Command handlers for the Admin Control Page
 

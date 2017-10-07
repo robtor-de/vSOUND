@@ -28,7 +28,8 @@ urlpatterns = [
     url(r'^add/$', views.add),
 
     #Login and Control Page
-    url(r'^login/', auth_views.login, {'template_name': 'trctl/admin_login.html', 'redirect_field_name': '/control/'}),
+    url(r'^login/', views.login_screen),
+    url(r'^authenticate/', views.auth_handler),
     url(r'^logout/', auth_views.logout, {'next_page': '/login/'}),
     url(r'^control/search/', views.search),
     url(r'^control/', views.admin_site),
