@@ -5,6 +5,16 @@ from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.auth import authenticate, login
 
+cli = MPDClient()
+
+def connect_mpd():
+    global cli
+    try:
+        MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+    except:
+        print("connection error")
+
+
 #Show the login page eventually with additional infos
 def login_screen(request):
     if (request.user.is_authenticated):
@@ -27,6 +37,8 @@ def auth_handler(request):
     if user is not None:
         if user.is_active:
             login(request, user)
+            #start first mpd connection after login
+            connect_mpd()
             return redirect("/control/")
         else:
             return render(request, 'trctl/admin_login.html', {'error_text': 'Benutzerkonto gesperrt!'})
@@ -36,12 +48,8 @@ def auth_handler(request):
 
 #Command handlers for the Admin Control Page, execute mpd_Client commands and then redirect to the admin page
 def cmd_handler(request, cmd):
+    global cli
     if (request.user.is_authenticated):
-        cli = MPDClient()
-        try:
-            MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
-        except:
-            return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
         if (cmd == 'play'):
             cli.play()
         elif (cmd == 'paus'):
@@ -62,18 +70,13 @@ def cmd_handler(request, cmd):
             return render(request, 'error.html', {'error_text': 'Unbekannter MPD-Befehl'})
     else:
         return redirect("/login/")
-    cli.close()
     return redirect("/control/")
 
 #command handler for the volume, connect the mpd_cli and change the volume
 def vol_handler(request, vol):
+    global cli
     if(request.user.is_authenticated):
         if(vol == 'u' or vol == 'd' or vol == 'm'):
-            cli = MPDClient()
-            try:
-                MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
-            except:
-                return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
             status = cli.status()
             old_vol = int(status['volume'])
             try:
@@ -96,15 +99,9 @@ def vol_handler(request, vol):
 
 #command handler for the direct id player, is called when the admin clicks an entry on the playlist
 def id_handler(request, songid):
+    global cli
     if(request.user.is_authenticated):
-        cli = MPDClient()
-        try:
-            MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
-        except:
-            return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
-
         cli.playid(songid)
-        cli.close()
         return redirect("/control/")
     else:
         return redirect("/login/")
@@ -112,25 +109,17 @@ def id_handler(request, songid):
 
 #returns the admin control site with several status information
 def admin_site(request):
+    global cli
     if (request.user.is_authenticated):
-        cli = MPDClient()
-        try:
-            MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
-        except:
-            return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
-
         playlist = cli.playlistinfo()
         status = cli.status()
         stats = cli.stats()
-
         try:
             current_song = playlist[int(status['song'])]["title"]
             current_artist = playlist[int(status['song'])]["artist"]
         except:
             current_song = ""
             current_artist = ""
-
-
         return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song, "artist": current_artist})
     else:
         return redirect("/login/")
@@ -138,16 +127,11 @@ def admin_site(request):
 
 #returns the search request form with a list of search results
 def search(request, s_req):
+    global cli
     if (request.user.is_authenticated):
         if(request.method == 'POST'):
             #return results if the form is valid
-            cli = MPDClient()
-            try:
-                MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
-            except:
-                return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
-
-            #sets the search text to the s_req value -->
+            #sets the search text to the s_req value --> search result should stay after adding title
             if(s_req != ''):
                 result = cli.search("any", request.POST["search_text"])
             else:
@@ -157,13 +141,8 @@ def search(request, s_req):
             return render(request, 'trctl/search.html')
 
 def add(request):
+    global cli
     if(request.user.is_authenticated):
-        cli = MPDClient()
-        try:
-            MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
-        except:
-            return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
-
         try:
             cli.add(request.POST["add_song"])
             s_text = request.POST["search_text"]
@@ -175,13 +154,12 @@ def add(request):
         return redirect("/login/")
 
 def playlist(request):
-    cli = MPDClient()
+    cli2 = MPDClient()
     try:
-        MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+        MPDClient.connect(cli2, settings.MPD_ADDRESS, settings.MPD_PORT)
     except:
         return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
 
-    playlist = cli.playlistinfo()
-    cli.close()
-
+    playlist = cli2.playlistinfo()
+    cli2.close()
     return render(request, 'trctl/playlist.html', {'playlist': playlist})
