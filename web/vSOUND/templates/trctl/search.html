@@ -1,3 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>vSOUND|Suchen</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+  <link rel="icon" type="/static/favicon.png">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark bg-dark">
+  <form class="form-inline" action="/control/search" method="post">
+    {% csrf_token %}
+    {{ form.search_text }}
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suchen</button>
+  </form>
+</nav>
+
 <form action="/control/search/" method="post">
   {% csrf_token %}
   {{ form }}
