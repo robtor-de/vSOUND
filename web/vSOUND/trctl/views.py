@@ -3,7 +3,6 @@ from mpd import MPDClient
 from django.conf import settings
 from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseForbidden
-from trctl.forms import searchForm
 from django.contrib.auth import authenticate, login
 
 #Show the login page eventually with additional infos
@@ -141,26 +140,21 @@ def admin_site(request):
 def search(request, s_req):
     if (request.user.is_authenticated):
         if(request.method == 'POST'):
-            form = searchForm(request.POST)
-
             #return results if the form is valid
-            if(form.is_valid()):
-                cli = MPDClient()
-                try:
-                    MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
-                except:
-                    return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
+            cli = MPDClient()
+            try:
+                MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+            except:
+                return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
 
-                #sets the search text to the s_req value -->
-                if(s_req != ''):
-                    result = cli.search("any", form.cleaned_data["search_text"])
-                else:
-                    result = cli.search("any", form.cleaned_data["search_text"])
-                return render(request, 'trctl/search.html', {'result': result, 'form': form })
+            #sets the search text to the s_req value -->
+            if(s_req != ''):
+                result = cli.search("any", request.POST["search_text"])
+            else:
+                result = cli.search("any", request.POST["search_text"])
+            return render(request, 'trctl/search.html', {'result': result, 's_text': request.POST['search_text']})
         else:
-            form = searchForm()
-
-        return render(request, 'trctl/search.html', {'form': form})
+            return render(request, 'trctl/search.html')
 
 def add(request):
     if(request.user.is_authenticated):
@@ -176,7 +170,6 @@ def add(request):
         except:
             return render(request, 'error.html', {'error_text': 'Fehler beim Hinzufügen des Liedes'})
         cli.close()
-
         return search(request, s_text)
     else:
         return redirect("/login/")
