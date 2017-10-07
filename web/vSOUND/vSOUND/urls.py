@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^id=(?P<songid>\d{1,10})', views.id_handler),
     url(r'^add/$', views.add),
 
-    #Login and Control Page
+    #Login and admin page
     url(r'^login/', views.login_screen),
     url(r'^authenticate/', views.auth_handler),
     url(r'^logout/', auth_views.logout, {'next_page': '/login/'}),
