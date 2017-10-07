@@ -136,7 +136,7 @@ def admin_site(request):
 
 #Search and add to Playlist function
 
-def search(request):
+def search(request, s_req):
     if (request.user.is_authenticated):
         if(request.method == 'POST'):
             form = searchForm(request.POST)
@@ -148,7 +148,10 @@ def search(request):
                 except:
                     return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
 
-                result = cli.search("any", form.cleaned_data["search_text"])
+                if(s_req != ''):
+                    result = cli.search("any", form.cleaned_data["search_text"])
+                else:
+                    result = cli.search("any", form.cleaned_data["search_text"])
                 return render(request, 'trctl/search.html', {'result': result, 'form': form })
         else:
             form = searchForm()
@@ -165,10 +168,12 @@ def add(request):
 
         try:
             cli.add(request.POST["add_song"])
+            s_text = request.POST["search_text"]
         except:
             return render(request, 'error.html', {'error_text': 'Fehler beim Hinzufügen des Liedes'})
         cli.close()
-        return redirect("/control/search/")
+
+        return search(request, s_text)
     else:
         return redirect("/login/")
 

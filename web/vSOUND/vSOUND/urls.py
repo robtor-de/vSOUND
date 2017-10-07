@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^login/', views.login_screen),
     url(r'^authenticate/', views.auth_handler),
     url(r'^logout/', auth_views.logout, {'next_page': '/login/'}),
-    url(r'^control/search/', views.search),
+    url(r'^control/search/', views.search, {'s_req': ''}),
     url(r'^control/', views.admin_site),
     url(r'^playlist/', views.playlist)
 ]

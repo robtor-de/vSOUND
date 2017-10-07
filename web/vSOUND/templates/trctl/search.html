@@ -38,6 +38,7 @@
           <form class="form-inline" method="post" action="/add/">
             {% csrf_token %}
             <input type="hidden" name="add_song" value="{{ entry.file }}">
+            <input type="hidden" name="search_text" value="{{form.cleaned_data.search_text}}">
             <button class="btn btn-outline-success btn-sm mx-1" type="submit">+</button>
           </form>
         </td>
