@@ -7,18 +7,24 @@ from trctl.forms import searchForm
 from django.contrib.auth import authenticate, login
 
 #Show the login page eventually with additional infos
-
 def login_screen(request):
     if (request.user.is_authenticated):
+        #if user is logged in redirect to admin site
         return redirect("/control/")
     else:
+        #return the login screen if the user isn't logged in
         return render(request, 'trctl/admin_login.html')
     return render(request, 'trctl/admin_login.html')
 
+#hander for the login form, log the user in
 def auth_handler(request):
+    #read the username and password from the request
     username = request.POST['username']
     password = request.POST['password']
+    #authenticate the user
     user = authenticate(username=username, password=password)
+
+    #login the user if the password is correct or redirect to the error pages
     if user is not None:
         if user.is_active:
             login(request, user)
@@ -29,8 +35,7 @@ def auth_handler(request):
         return render(request, 'trctl/admin_login.html', {'error_text': 'Benutzername oder Passwort falsch'})
 
 
-#Command handlers for the Admin Control Page
-
+#Command handlers for the Admin Control Page, execute mpd_Client commands and then redirect to the admin page
 def cmd_handler(request, cmd):
     if (request.user.is_authenticated):
         cli = MPDClient()
@@ -38,7 +43,6 @@ def cmd_handler(request, cmd):
             MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
         except:
             return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
-
         if (cmd == 'play'):
             cli.play()
         elif (cmd == 'paus'):
@@ -59,11 +63,10 @@ def cmd_handler(request, cmd):
             return render(request, 'error.html', {'error_text': 'Unbekannter MPD-Befehl'})
     else:
         return redirect("/login/")
-
     cli.close()
     return redirect("/control/")
 
-
+#command handler for the volume, connect the mpd_cli and change the volume
 def vol_handler(request, vol):
     if(request.user.is_authenticated):
         if(vol == 'u' or vol == 'd' or vol == 'm'):
@@ -92,7 +95,7 @@ def vol_handler(request, vol):
         return redirect("/login/")
     return redirect("/control/")
 
-
+#command handler for the direct id player, is called when the admin clicks an entry on the playlist
 def id_handler(request, songid):
     if(request.user.is_authenticated):
         cli = MPDClient()
@@ -108,7 +111,7 @@ def id_handler(request, songid):
         return redirect("/login/")
 
 
-#View for the Admin Control Site
+#returns the admin control site with several status information
 def admin_site(request):
     if (request.user.is_authenticated):
         cli = MPDClient()
@@ -134,13 +137,13 @@ def admin_site(request):
         return redirect("/login/")
 
 
-#Search and add to Playlist function
-
+#returns the search request form with a list of search results
 def search(request, s_req):
     if (request.user.is_authenticated):
         if(request.method == 'POST'):
             form = searchForm(request.POST)
 
+            #return results if the form is valid
             if(form.is_valid()):
                 cli = MPDClient()
                 try:
@@ -148,6 +151,7 @@ def search(request, s_req):
                 except:
                     return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
 
+                #sets the search text to the s_req value -->
                 if(s_req != ''):
                     result = cli.search("any", form.cleaned_data["search_text"])
                 else:
