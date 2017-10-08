@@ -1,11 +1,47 @@
+<!DOCTYPE html>
 
-<table>
-{% for element in playlist %}
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>vSOUND|Playlist</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+  <link rel="icon" href="/static/favicon.png">
+</head>
 
-<tr>
-  <td>{{ element.title }}</td>
-  <td>{{ element.artist }}</td>
-</tr>
+<body>
 
-{% endfor %}
-</table>
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Wiedergabeliste</a>
+  </nav>
+
+<div class="container">
+  <table class="table table-striped table-responsive">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Titel</th>
+        <th>Künstler</th>
+        <th>Album</th>
+      <tr>
+    </thead>
+
+    {% for entry in playlist %}
+      {% if songid == entry.id %}
+        <tr class="table-success">
+      {% else %}
+        <tr>
+      {% endif %}
+        <td>{{ entry.id }}</td>
+        <td><a href="/id=p{{ entry.id }}">{{ entry.title }}</a></td>
+        <td>{{ entry.artist }}</td>
+        <td>{{ entry.album }}</td>
+      </tr>
+    {% endfor %}
+ </table>
+</div>
+
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/popper.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+</body>
+</html>

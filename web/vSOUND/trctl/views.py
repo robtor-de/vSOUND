@@ -216,5 +216,6 @@ def playlist(request):
         return render(request, 'error.html', {'error_text': 'Konnte leider keine Verbindung zum MPD herstellen'})
 
     playlist = cli2.playlistinfo()
+    status = cli2.status()
     cli2.close()
-    return render(request, 'trctl/playlist.html', {'playlist': playlist})
+    return render(request, 'trctl/playlist.html', {'playlist': playlist, 'songid': status["songid"]})
