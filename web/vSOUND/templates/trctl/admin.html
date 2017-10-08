@@ -48,7 +48,7 @@
         </div>
     </div>
       <div class="btn-group ml-3 mt-1">
-          <button type="button" class="btn btn-success px-1">Speichern</button>
+          <button type="button" class="btn btn-success px-1" onclick="add_playlist()">Speichern</button>
           <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">Gespeicherte Playlists anzeigen</span>
           </button>
@@ -120,6 +120,18 @@
     Datenbank enthält {{stats.songs}} Songs | {{stats.playtime}} Sekunden spielzeit
   </p>
 </div>
+
+
+<script>
+function add_playlist() {
+    var name = prompt("Gib einen Namen für die Wiedergabeliste an", "Playlist1");
+    var location = "/save_playlist=";
+    location = location.concat(name);
+    location = location.concat("=");
+
+    document.location.assign(location);
+}
+</script>
 
 <script src="/static/js/jquery.js"></script>
 <script src="/static/js/popper.js"></script>

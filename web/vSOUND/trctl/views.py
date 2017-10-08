@@ -155,6 +155,7 @@ def search(request, s_req):
         else:
             return render(request, 'trctl/search.html')
 
+#adds a requested song to the playlist
 def add(request):
     global cli
     connect_mpd()
@@ -168,6 +169,7 @@ def add(request):
     else:
         return redirect("/login/")
 
+#loads a selected playlist --> Used method over url here because no backtrack of search text like in add() is necessary
 def load_playlist(request, playlist_name):
     global cli
     connect_mpd()
@@ -176,6 +178,19 @@ def load_playlist(request, playlist_name):
             cli.load(playlist_name)
         except:
             return render(request, 'error.html', {'error_text': 'Fehler beim Laden der Playlist'})
+        return redirect("/control/")
+    else:
+        return redirect("/login/")
+
+#tries to save a playlist
+def save_playlist(request, playlist_name):
+    global cli
+    connect_mpd()
+    if(request.user.is_authenticated):
+        try:
+            cli.save(playlist_name)
+        except:
+            return render(request, 'error.html', {'error_text': 'Fehler beim Speichern der Playlist'})
         return redirect("/control/")
     else:
         return redirect("/login/")
