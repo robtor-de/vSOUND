@@ -41,12 +41,23 @@
         <button type="button" class="btn btn-outline-warning dropdown-toggle dropdown-toggle-split px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="sr-only">Weitere optionen</span>
         </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="/ctl/clrp">Wiedergabeliste löschen</a>
-        <a class="dropdown-item" href="/ctl/updt">Bibliothek aktualisieren</a>
-        <a class="dropdown-item" href="/ctl/rscn">Bibliothek neu einlesen</a>
-      </div>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="/ctl/clrp">Wiedergabeliste löschen</a>
+          <a class="dropdown-item" href="/ctl/updt">Bibliothek aktualisieren</a>
+          <a class="dropdown-item" href="/ctl/rscn">Bibliothek neu einlesen</a>
+        </div>
     </div>
+      <div class="btn-group ml-3 mt-1">
+          <button type="button" class="btn btn-success px-1">Speichern</button>
+          <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Gespeicherte Playlists anzeigen</span>
+          </button>
+          <div class="dropdown-menu">
+            {% for entry in playlists %}
+              <a class="dropdown-item" href="/load={{ entry.playlist }}">{{ entry.playlist }}</a>
+            {% endfor %}
+          </div>
+      </div>
     </div>
     <span class="mx-auto"></span>
     <div class="inline-form mx-1 my-1">
@@ -109,8 +120,6 @@
     Datenbank enthält {{stats.songs}} Songs | {{stats.playtime}} Sekunden spielzeit
   </p>
 </div>
-
-
 
 <script src="/static/js/jquery.js"></script>
 <script src="/static/js/popper.js"></script>

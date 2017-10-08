@@ -127,13 +127,14 @@ def admin_site(request):
         playlist = cli.playlistinfo()
         status = cli.status()
         stats = cli.stats()
+        playlists = cli.listplaylists()
         try:
             current_song = playlist[int(status['song'])]["title"]
             current_artist = playlist[int(status['song'])]["artist"]
         except:
             current_song = ""
             current_artist = ""
-        return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song, "artist": current_artist})
+        return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song, "artist": current_artist, "playlists": playlists})
     else:
         return redirect("/login/")
 
@@ -166,6 +167,9 @@ def add(request):
         return search(request, s_text)
     else:
         return redirect("/login/")
+
+def load_playlist(request, playlist_name):
+    return HttpResponse(playlist_name)
 
 def playlist(request):
     cli2 = MPDClient()

@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^vol=(?P<vol>\D{1})$', views.vol_handler),
     url(r'^id=(?P<action>\D{1})(?P<songid>\d{1,10})', views.id_handler),
     url(r'^add/$', views.add),
+    url(r'^load=(?P<playlist_name>\D+)', views.load_playlist),
 
     #Login and admin page
     url(r'^login/', views.login_screen),
