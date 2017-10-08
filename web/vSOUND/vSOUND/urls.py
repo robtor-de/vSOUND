@@ -24,7 +24,7 @@ urlpatterns = [
     #Direct control urls that accept commands
     url(r'^ctl/(?P<cmd>\D{4})/$', views.cmd_handler),
     url(r'^vol=(?P<vol>\D{1})$', views.vol_handler),
-    url(r'^id=(?P<songid>\d{1,10})', views.id_handler),
+    url(r'^id=(?P<action>\D{1})(?P<songid>\d{1,10})', views.id_handler),
     url(r'^add/$', views.add),
 
     #Login and admin page

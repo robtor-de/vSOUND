@@ -130,11 +130,11 @@ STATICFILES_DIRS = [
 ]
 
 
+
 # Settings for the MPD Server
 
 MPD_ADDRESS = '127.0.0.1'
 MPD_PORT = '6600'
 
-# Settings for the Transport Control Admin Interface
-
-LOGIN_REDIRECT_URL = '/control/'
+#Set this value to your volume control steps
+VOL_STEP = 5

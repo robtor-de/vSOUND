@@ -88,9 +88,9 @@ def vol_handler(request, vol):
             old_vol = int(status['volume'])
             try:
                 if(vol == 'u'):
-                    cli.setvol(old_vol + 2)
+                    cli.setvol(old_vol + settings.VOL_STEP)
                 elif(vol == 'd'):
-                    cli.setvol(old_vol - 2)
+                    cli.setvol(old_vol - settings.VOL_STEP)
                 elif(vol == 'm'):
                     cli.setvol(0)
                 else:
@@ -104,11 +104,16 @@ def vol_handler(request, vol):
     return redirect("/control/")
 
 #command handler for the direct id player, is called when the admin clicks an entry on the playlist
-def id_handler(request, songid):
+def id_handler(request, action, songid):
     global cli
     connect_mpd()
     if(request.user.is_authenticated):
-        cli.playid(songid)
+        if(action == 'p'):
+            cli.playid(songid)
+        elif(action =='d'):
+            cli.deleteid(songid)
+        else:
+            return render(request, 'error.html', {'error_text': 'Unbekannter befehl'})
         return redirect("/control/")
     else:
         return redirect("/login/")
