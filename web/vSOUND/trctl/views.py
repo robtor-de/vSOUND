@@ -175,6 +175,7 @@ def load_playlist(request, playlist_name):
     connect_mpd()
     if(request.user.is_authenticated):
         try:
+            cli.clear()
             cli.load(playlist_name)
         except:
             return render(request, 'error.html', {'error_text': 'Fehler beim Laden der Playlist'})
@@ -191,6 +192,18 @@ def save_playlist(request, playlist_name):
             cli.save(playlist_name)
         except:
             return render(request, 'error.html', {'error_text': 'Fehler beim Speichern der Playlist'})
+        return redirect("/control/")
+    else:
+        return redirect("/login/")
+
+def delete_playlist(request, playlist_name):
+    global cli
+    connect_mpd()
+    if(request.user.is_authenticated):
+        try:
+            cli.rm(playlist_name)
+        except:
+            return render(request, 'error.html', {'error_text': 'Fehler beim Löschen der Playlist'})
         return redirect("/control/")
     else:
         return redirect("/login/")

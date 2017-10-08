@@ -54,7 +54,11 @@
           </button>
           <div class="dropdown-menu">
             {% for entry in playlists %}
-              <a class="dropdown-item" href="/load={{ entry.playlist }}=">{{ entry.playlist }}</a>
+            <div class="dropdown-item d-flex">
+                <a href="/load={{ entry.playlist }}=">{{ entry.playlist }}</a>
+                <button type="button" class="btn btn-outline-danger btn-sm ml-auto" onclick="location.href = '/delete_playlist={{ entry.playlist }}='"><span aria-hidden="true">&times;</span></button>
+            </div>
+
             {% endfor %}
           </div>
       </div>
