@@ -9,11 +9,15 @@ cli = MPDClient()
 
 def connect_mpd():
     global cli
+
     try:
-        MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+        cli.status()
     except:
-        #TODO: Add here better support
-        print("MPD-Error")
+        try:
+            MPDClient.connect(cli, settings.MPD_ADDRESS, settings.MPD_PORT)
+        except:
+            #TODO: Add here better support
+            print("MPD-Error")
 
 
 #Show the login page eventually with additional infos
@@ -50,6 +54,7 @@ def auth_handler(request):
 #Command handlers for the Admin Control Page, execute mpd_Client commands and then redirect to the admin page
 def cmd_handler(request, cmd):
     global cli
+    connect_mpd()
     if (request.user.is_authenticated):
         if (cmd == 'play'):
             cli.play()
@@ -76,6 +81,7 @@ def cmd_handler(request, cmd):
 #command handler for the volume, connect the mpd_cli and change the volume
 def vol_handler(request, vol):
     global cli
+    connect_mpd()
     if(request.user.is_authenticated):
         if(vol == 'u' or vol == 'd' or vol == 'm'):
             status = cli.status()
@@ -91,7 +97,6 @@ def vol_handler(request, vol):
                     return render(request, 'error.html', {'error_text': 'Unbekannter Befehl'})
             except:
                 return render(request, 'error.html', {'error_text': 'Fehler beim Sezten der Lautstärke, vielleicht wird aktuell nichts wiedergegeben'})
-            cli.close()
         else:
             return render(request, 'error.html', {'error_text': 'Lautstärke nicht im gültigen Bereich'})
     else:
@@ -101,6 +106,7 @@ def vol_handler(request, vol):
 #command handler for the direct id player, is called when the admin clicks an entry on the playlist
 def id_handler(request, songid):
     global cli
+    connect_mpd()
     if(request.user.is_authenticated):
         cli.playid(songid)
         return redirect("/control/")
@@ -111,6 +117,7 @@ def id_handler(request, songid):
 #returns the admin control site with several status information
 def admin_site(request):
     global cli
+    connect_mpd()
     if (request.user.is_authenticated):
         playlist = cli.playlistinfo()
         status = cli.status()
@@ -129,6 +136,7 @@ def admin_site(request):
 #returns the search request form with a list of search results
 def search(request, s_req):
     global cli
+    connect_mpd()
     if (request.user.is_authenticated):
         if(request.method == 'POST'):
             #return results if the form is valid
@@ -143,13 +151,13 @@ def search(request, s_req):
 
 def add(request):
     global cli
+    connect_mpd()
     if(request.user.is_authenticated):
         try:
             cli.add(request.POST["add_song"])
             s_text = request.POST["search_text"]
         except:
             return render(request, 'error.html', {'error_text': 'Fehler beim Hinzufügen des Liedes'})
-        cli.close()
         return search(request, s_text)
     else:
         return redirect("/login/")
