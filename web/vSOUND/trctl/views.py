@@ -169,7 +169,16 @@ def add(request):
         return redirect("/login/")
 
 def load_playlist(request, playlist_name):
-    return HttpResponse(playlist_name)
+    global cli
+    connect_mpd()
+    if(request.user.is_authenticated):
+        try:
+            cli.load(playlist_name)
+        except:
+            return render(request, 'error.html', {'error_text': 'Fehler beim Laden der Playlist'})
+        return redirect("/control/")
+    else:
+        return redirect("/login/")
 
 def playlist(request):
     cli2 = MPDClient()
