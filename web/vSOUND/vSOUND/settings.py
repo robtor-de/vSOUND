@@ -140,3 +140,8 @@ MPD_PORT = '6600'
 
 #Set this value to your volume control steps
 VOL_STEP = 5
+
+#Set this value to decide how many suspended songs are queued
+#They won't apper in the random vote function until x songs are played
+
+SUSPENDED_VAL = 10
