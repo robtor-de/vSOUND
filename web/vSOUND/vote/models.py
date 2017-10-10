@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from mpd import MPDClient
+from random import randint
 
 
 cli = MPDClient()
@@ -24,7 +25,6 @@ def connect_mpd():
 
 
 class votable_song(models.Model):
-    r_num = models.IntegerField()
     file_name = models.TextField()
     song_title = models.TextField()
     song_artist = models.TextField()
@@ -40,11 +40,9 @@ class votable_song(models.Model):
 
         votable_song.clear_all()
         plst = cli.playlistinfo()
-        r_int = 0
 
         for entry in plst:
             votable_song(r_num = r_int, file_name=entry['file'], song_title=entry['title'], song_artist=entry['artist'], song_album=entry['album']).save()
-            r_int = r_int + 1
 
     def suspend_song(v_song):
         suspended_song(file_name=v_song.file_name, song_title=v_song.song_title, song_artist=v_song.song_artist, song_album=v_song.song_album, s_order=timezone.now()).save()
@@ -78,3 +76,11 @@ class vote(models.Model):
 
     def initiate_vote(item_count):
         vote_option.clear_all()
+
+        for x in range(0, item_count):
+            r_num = randint(0, votable_song.objects.count() - 1)
+            v_rand = votable_song.objects.all()
+            r_song = v_rand[r_num]
+            vote_option(song=r_song, v_count=0).save()
+            votable_song.suspend_song(r_song)
+            suspended_song.check_for_unsuspend()

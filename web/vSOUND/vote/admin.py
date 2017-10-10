@@ -2,7 +2,7 @@ from django.contrib import admin
 from vote.models import votable_song, suspended_song, vote_option, vote
 
 class votable_admin(admin.ModelAdmin):
-    list_display = ('r_num', 'song_title', 'song_artist', 'song_album')
+    list_display = ('song_title', 'song_artist', 'song_album')
 
 class suspended_admin(admin.ModelAdmin):
     list_display = ('song_title', 'song_artist', 'song_album')
