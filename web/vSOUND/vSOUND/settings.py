@@ -145,3 +145,8 @@ VOL_STEP = 5
 #They won't apper in the random vote function until x songs are played
 
 SUSPENDED_VAL = 10
+
+#Set this value to decide how manys vote options should be displayed to the Users
+VOTE_OPTS = 3
+
+#SUSPENDED_VAL must be greater than the value of VOTE_OPTS

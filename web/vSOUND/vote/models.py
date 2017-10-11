@@ -26,9 +26,9 @@ def connect_mpd():
 
 class votable_song(models.Model):
     file_name = models.TextField()
-    song_title = models.TextField()
-    song_artist = models.TextField()
-    song_album = models.TextField()
+    song_title = models.TextField(default="missing-title")
+    song_artist = models.TextField(default="missing-artist")
+    song_album = models.TextField(default="missing-album")
 
     def clear_all():
         votable_song.objects.all().delete()
@@ -77,9 +77,9 @@ class vote_option(models.Model):
         for x in range(0, item_count):
             r_num = randint(0, votable_song.objects.count() - 1)
             v_rand = votable_song.objects.all()
-            r_song = v_rand[r_num]
+            r_song = votable_song.objects.get(song_title=v_rand[r_num].song_title)
 
             vote_option.objects.create(song=r_song, v_count=0)
 
-            votable_song.suspend_song(r_song)
-            suspended_song.check_for_unsuspend()
+            #votable_song.suspend_song(r_song)
+            #suspended_song.check_for_unsuspend()
