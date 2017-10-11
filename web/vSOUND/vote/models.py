@@ -42,7 +42,7 @@ class votable_song(models.Model):
         plst = cli.playlistinfo()
 
         for entry in plst:
-            votable_song(r_num = r_int, file_name=entry['file'], song_title=entry['title'], song_artist=entry['artist'], song_album=entry['album']).save()
+            votable_song(file_name=entry['file'], song_title=entry['title'], song_artist=entry['artist'], song_album=entry['album']).save()
 
     def suspend_song(v_song):
         suspended_song(file_name=v_song.file_name, song_title=v_song.song_title, song_artist=v_song.song_artist, song_album=v_song.song_album, s_order=timezone.now()).save()
