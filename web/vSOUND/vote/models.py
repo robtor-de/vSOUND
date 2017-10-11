@@ -108,6 +108,7 @@ class vote_option(models.Model):
         transfer_data = {'file': o_winner.file_name, 'title': o_winner.song_title, 'artist': o_winner.song_artist}
 
         suspended_song.check_for_unsuspend()
+        vote_option.initiate_vote()
         return transfer_data
 
     def is_active():
