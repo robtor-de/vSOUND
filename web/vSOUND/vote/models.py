@@ -89,7 +89,7 @@ class vote_option(models.Model):
     def finish_vote():
         o_votes = vote_option.objects.order_by('v_count')
         o_winner = o_votes.last()
-
         transfer_data = {'file': o_winner.file_name, 'title': o_winner.song_title, 'artist': o_winner.song_artist}
 
+        suspended_song.check_for_unsuspend()
         return transfer_data
