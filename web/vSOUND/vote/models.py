@@ -4,7 +4,6 @@ from django.utils import timezone
 from mpd import MPDClient
 from random import randint
 
-
 cli = MPDClient()
 
 def connect_mpd():
@@ -29,9 +28,6 @@ class votable_song(models.Model):
     song_title = models.TextField(default="missing-title")
     song_artist = models.TextField(default="missing-artist")
 
-    def clear_all():
-        votable_song.objects.all().delete()
-        suspended_song.objects.all().delete()
 
     def auto_add():
         global cli
@@ -71,14 +67,15 @@ class vote_option(models.Model):
     song_title = models.TextField()
     song_artist = models.TextField()
 
+    def vote_setup():
+        votable_song.objects.all().delete()
+        suspended_song.objects.all().delete()
+        votable_song.auto_add()
 
-    def clear_all():
+    def initiate_vote():
         vote_option.objects.all().delete()
 
-    def initiate_vote(item_count):
-        vote_option.clear_all()
-
-        for x in range(0, item_count):
+        for x in range(0, settings.VOTE_OPTS):
             if(votable_song.objects.count > 1):
                 r_num = randint(0, votable_song.objects.count() - 1)
                 v_rand = votable_song.objects.all()
