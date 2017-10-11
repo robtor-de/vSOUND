@@ -15,26 +15,27 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from trctl import views
+from trctl import views as trctl_views
+from vote import views as vote_views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     #Direct control urls that accept commands
-    url(r'^ctl/(?P<cmd>\D{4})/$', views.cmd_handler),
-    url(r'^vol=(?P<vol>\D{1})$', views.vol_handler),
-    url(r'^id=(?P<action>\D{1})(?P<songid>\d+)', views.id_handler),
-    url(r'^add/$', views.add),
-    url(r'^load=(?P<playlist_name>.+)=$', views.load_playlist),
-    url(r'^save_playlist=(?P<playlist_name>.+)=$', views.save_playlist),
-    url(r'^delete_playlist=(?P<playlist_name>.+)=$', views.delete_playlist),
+    url(r'^ctl/(?P<cmd>\D{4})/$', trctl_views.cmd_handler),
+    url(r'^vol=(?P<vol>\D{1})$', trctl_views.vol_handler),
+    url(r'^id=(?P<action>\D{1})(?P<songid>\d+)', trctl_views.id_handler),
+    url(r'^add/$', trctl_views.add),
+    url(r'^load=(?P<playlist_name>.+)=$', trctl_views.load_playlist),
+    url(r'^save_playlist=(?P<playlist_name>.+)=$', trctl_views.save_playlist),
+    url(r'^delete_playlist=(?P<playlist_name>.+)=$', trctl_views.delete_playlist),
 
     #Login and admin page
-    url(r'^login/', views.login_screen),
-    url(r'^authenticate/', views.auth_handler),
+    url(r'^login/', trctl_views.login_screen),
+    url(r'^authenticate/', trctl_views.auth_handler),
     url(r'^logout/', auth_views.logout, {'next_page': '/login/'}),
-    url(r'^control/search/', views.search, {'s_req': ''}),
-    url(r'^control/', views.admin_site),
-    url(r'^playlist/', views.playlist)
+    url(r'^control/search/', trctl_views.search, {'s_req': ''}),
+    url(r'^control/', trctl_views.admin_site),
+    url(r'^playlist/', trctl_views.playlist)
 ]
