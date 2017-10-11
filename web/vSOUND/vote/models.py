@@ -88,4 +88,8 @@ class vote_option(models.Model):
 
     def finish_vote():
         o_votes = vote_option.objects.order_by('v_count')
-        return o_votes.last()
+        o_winner = o_votes.last()
+
+        transfer_data = {'file': o_winner.file_name, 'title': o_winner.song_title, 'artist': o_winner.song_artist}
+
+        return transfer_data
