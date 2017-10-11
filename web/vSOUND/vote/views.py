@@ -39,12 +39,17 @@ def vote_view(request):
 
     if(o.is_active()):
         options = o.objects.all()
+
+        #calculate percentage values
+        per_vals = []
         vote_sum = 0
 
         for x in options.values("v_count"):
             vote_sum = vote_sum + x["v_count"]
 
-        return render(request, "vote/vote.html", {"playlist": playlist, "status": status, "options": options, "song": current_song, "artist": current_artist, "vote_sum": vote_sum})
+
+
+        return render(request, "vote/vote.html", {"active": True, "playlist": playlist, "status": status, "options": options, "song": current_song, "artist": current_artist, "vote_sum": vote_sum})
     else:
         return render(request, "vote/vote_inactive.html")
 

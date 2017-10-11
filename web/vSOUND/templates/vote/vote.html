@@ -2,8 +2,6 @@
 
 {% block content %}
 
-{{vote_sum}}
-
 <div class="fluid-container justify-content-center">
   {% for item in options %}
   <div class="card mx-auto my-2 text-white bg-dark" style="width: 20rem;">
@@ -17,8 +15,12 @@
           <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{item.v_count}}" aria-valuemin="0" aria-valuemax="{{vote_sum}}" style="width: {{item.v_count }}%"></div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-footer">
+      {% if active %}
       <a class="btn btn-primary" href="/votefor/pk={{item.pk}}/">Abstimmen</a>
+      {% else %}
+        <button class="btn btn-primary" disabled>Bereits abgestimmt</a>
+      {% endif %}
     </div>
   </div>
   {% endfor %}
