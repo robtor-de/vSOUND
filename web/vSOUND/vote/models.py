@@ -33,7 +33,6 @@ class votable_song(models.Model):
         global cli
         connect_mpd()
 
-        votable_song.clear_all()
         plst = cli.playlistinfo()
 
         for entry in plst:
@@ -76,7 +75,7 @@ class vote_option(models.Model):
         vote_option.objects.all().delete()
 
         for x in range(0, settings.VOTE_OPTS):
-            if(votable_song.objects.count > 1):
+            if(votable_song.objects.count() > 1):
                 r_num = randint(0, votable_song.objects.count() - 1)
                 v_rand = votable_song.objects.all()
                 r_song = v_rand[r_num]
@@ -86,3 +85,7 @@ class vote_option(models.Model):
             else:
                 print("Not enough votable songs available, just unsuspending")
                 suspended_song.check_for_unsuspend()
+
+    def vote_for(option):
+        n_val = option.v_count + 1
+        option.update(v_count=n_val)
