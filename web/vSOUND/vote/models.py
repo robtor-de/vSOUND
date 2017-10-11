@@ -71,9 +71,6 @@ class vote_option(models.Model):
     def clear_all():
         vote_option.objects.all().delete()
 
-class vote(models.Model):
-    vote_options = models.ManyToManyField(vote_option)
-
     def initiate_vote(item_count):
         vote_option.clear_all()
 
@@ -81,6 +78,9 @@ class vote(models.Model):
             r_num = randint(0, votable_song.objects.count() - 1)
             v_rand = votable_song.objects.all()
             r_song = v_rand[r_num]
-            vote_option(song=r_song, v_count=0).save()
+
+
+            v_opt = vote_option.objects.create(song=r_song, v_count=0)
+
             votable_song.suspend_song(r_song)
             suspended_song.check_for_unsuspend()
