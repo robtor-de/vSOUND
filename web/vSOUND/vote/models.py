@@ -41,7 +41,10 @@ class votable_song(models.Model):
         plst = cli.playlistinfo()
 
         for entry in plst:
-            votable_song(file_name=entry['file'], song_title=entry['title'], song_artist=entry['artist']).save()
+            try:
+                votable_song(file_name=entry['file'], song_title=entry['title'], song_artist=entry['artist']).save()
+            except:
+                print("Error adding this song")
 
     def suspend_song(v_song):
         suspended_song(file_name=v_song.file_name, song_title=v_song.song_title, song_artist=v_song.song_artist, s_order=timezone.now()).save()
@@ -76,9 +79,13 @@ class vote_option(models.Model):
         vote_option.clear_all()
 
         for x in range(0, item_count):
-            r_num = randint(0, votable_song.objects.count() - 1)
-            v_rand = votable_song.objects.all()
-            r_song = v_rand[r_num]
-            vote_option.objects.create(file_name=r_song.file_name, song_title=r_song.song_title, song_artist=r_song.song_artist, v_count=0)
-            votable_song.suspend_song(r_song)
-            suspended_song.check_for_unsuspend()
+            if(votable_song.objects.count > 1):
+                r_num = randint(0, votable_song.objects.count() - 1)
+                v_rand = votable_song.objects.all()
+                r_song = v_rand[r_num]
+                vote_option.objects.create(file_name=r_song.file_name, song_title=r_song.song_title, song_artist=r_song.song_artist, v_count=0)
+                votable_song.suspend_song(r_song)
+                suspended_song.check_for_unsuspend()
+            else:
+                print("Not enough votable songs available, just unsuspending")
+                suspended_song.check_for_unsuspend()
