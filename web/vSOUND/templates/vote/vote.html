@@ -1,12 +1,24 @@
 {% extends "vote/base.html" %}
 
-
 {% block content %}
 
-{% for item in options %}
+<div class="fluid-container justify-content-center">
+  {% for item in options %}
+  <div class="card mx-auto my-2 text-white bg-dark" style="width: 20rem;">
+    <div class="card-header">
+      <h4 class="card-title text-success">{{item.song_title}}</h4>
+    </div>
+    <div class="card-body">
+            <p class="card-text text-primary">{{item.song_artist}}</h4>
+      <p class="card-text text-danger">{{item.v_count}}</p>
+    </div>
+    <div class="card-body">
+      <a class="btn btn-primary" href="/votefor/pk={{item.pk}}/">Abstimmen</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
-{{item.song_title}} - {{item.song_artist}} - {{item.v_count}} - <a href="/votefor/pk={{item.pk}}/">Hierfür stimmen</a><br>
 
-{% endfor %}
 
 {% endblock content %}

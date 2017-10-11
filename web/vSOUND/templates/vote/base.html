@@ -1,3 +1,29 @@
-{% block content %}
+<!DOCTYPE html>
 
-{% endblock %}
+<html>
+<head>
+  <meta http-equiv="refresh" content="20"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>vSOUND</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+  <link rel="icon" href="/static/favicon.png">
+</head>
+
+<body>
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">vSOUND</a>
+  </nav>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom justify-content-center">
+      <a class="nav-link" href="/playlist/"><b class="text-primary">{{song}}</b> - <em class="text-warning">{{artist}}</em></a>
+  </nav>
+
+  {% block content %}
+
+  {% endblock %}
+
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/popper.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+</body>
+</html>
