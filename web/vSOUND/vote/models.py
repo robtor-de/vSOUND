@@ -79,8 +79,7 @@ class vote_option(models.Model):
             v_rand = votable_song.objects.all()
             r_song = v_rand[r_num]
 
-
-            v_opt = vote_option.objects.create(song=r_song, v_count=0)
+            vote_option.objects.create(song=r_song, v_count=0)
 
             votable_song.suspend_song(r_song)
             suspended_song.check_for_unsuspend()
