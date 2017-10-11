@@ -30,6 +30,9 @@ class votable_song(models.Model):
 
         plst = cli.playlistinfo()
 
+        if(len(plst) <= settings.SUSPENDED_VAL):
+            raise ValueError("Number of Playlist items is smaller than Suspended Val in settings")
+
         for entry in plst:
             try:
                 votable_song(file_name=entry['file'], song_title=entry['title'], song_artist=entry['artist']).save()
@@ -61,6 +64,8 @@ class vote_option(models.Model):
     song_title = models.TextField()
     song_artist = models.TextField()
 
+
+    #Sets up the database for a voting session made from the current playlist
     def vote_setup():
         votable_song.objects.all().delete()
         suspended_song.objects.all().delete()
