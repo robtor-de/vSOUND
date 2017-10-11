@@ -3,16 +3,17 @@
 {% block content %}
 
 <div class="fluid-container justify-content-center">
-  {% for item in options %}
+  {% for item, per, col in data %}
   <div class="card mx-auto my-2 text-white bg-dark" style="width: 20rem;">
     <div class="card-header">
       <h4 class="card-title text-success">{{item.song_title}}</h4>
     </div>
     <div class="card-body">
-      <p class="card-text">{{item.song_artist}}</h4>
+      <h4 class="card-text">{{item.song_artist}}</h4>
+      <p class="text-warning">{{item.v_count}} Stimme(n)</p>
       <hr class="bg-white">
         <div class="progress">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{item.v_count}}" aria-valuemin="0" aria-valuemax="{{vote_sum}}" style="width: {{item.v_count }}%"></div>
+          <div class="progress-bar progress-bar-striped progress-bar-animated {{col}}" role="progressbar" aria-valuenow="{{per}}" aria-valuemin="0" aria-valuemax="100" style="width: {{per}}%"></div>
         </div>
     </div>
     <div class="card-footer">

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from mpd import MPDClient
 from django.conf import settings
 from vote.models import vote_option as o
+from random import randint
 
 # Create your views here.
 
@@ -42,14 +43,30 @@ def vote_view(request):
 
         #calculate percentage values
         per_vals = []
-        vote_sum = 0
 
+        #calculates the sum of vote_voices
+        vote_sum = 0
         for x in options.values("v_count"):
             vote_sum = vote_sum + x["v_count"]
 
+        #calculates a percentage value for each individual progress bar in html template
+        for x in options.values("v_count"):
+            if(vote_sum > 0):
+                percentage = (x["v_count"]/vote_sum)*100
+                per_vals.append(int(percentage))
+            else:
+                per_vals.append(0)
 
 
-        return render(request, "vote/vote.html", {"active": True, "playlist": playlist, "status": status, "options": options, "song": current_song, "artist": current_artist, "vote_sum": vote_sum})
+        r_col = []
+        avail_col = ["bg-primary", "bg-secondary", "bg-success", "bg-danger", "bg-warning", "bg-info"]
+        #generates random colors for displaying the progress
+        for obj in options:
+            r_col.append(avail_col[randint(0, 5)])
+
+        data = zip(options, per_vals, r_col)
+
+        return render(request, "vote/vote.html", {"active": True, "playlist": playlist, "status": status, "options": options, "song": current_song, "artist": current_artist, "data": data})
     else:
         return render(request, "vote/vote_inactive.html")
 
