@@ -93,8 +93,14 @@ class vote_option(models.Model):
 
     def finish_vote():
         o_votes = vote_option.objects.order_by('v_count')
-
         o_winner = o_votes.last()
+
+        #check if other same_level votes are availabla and make random choice
+        s_val_opts = o_votes.filter(v_count__exact=o_winner.v_count)
+        if(s_val_opts.count() > 1):
+            r_num = randint(0, s_val_opts.count() - 1)
+            o_winner = s_val_opts[r_num]
+
         transfer_data = {'file': o_winner.file_name, 'title': o_winner.song_title, 'artist': o_winner.song_artist}
 
         suspended_song.check_for_unsuspend()
