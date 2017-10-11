@@ -32,7 +32,7 @@ end
 # unset irrelavent variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/robtor/Schreibtisch/Project/pyvenv"
+set -gx VIRTUAL_ENV "/home/robtor/Schreibtisch/vSOUND/pyvenv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

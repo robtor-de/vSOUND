@@ -1,4 +1,4 @@
-#!/home/robtor/Schreibtisch/Project/pyvenv/bin/python3.4
+#!/home/robtor/Schreibtisch/vSOUND/pyvenv/bin/python3.4
 from django.core import management
 
 if __name__ == "__main__":
