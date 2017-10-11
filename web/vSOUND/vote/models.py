@@ -63,10 +63,11 @@ class suspended_song(models.Model):
 
 
 class vote_option(models.Model):
+    v_count = models.IntegerField(default=0)
     file_name = models.TextField()
     song_title = models.TextField()
     song_artist = models.TextField()
-    v_count = models.IntegerField(default=0)
+
 
     def clear_all():
         vote_option.objects.all().delete()
