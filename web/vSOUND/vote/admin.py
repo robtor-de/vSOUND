@@ -7,7 +7,10 @@ class votable_admin(admin.ModelAdmin):
 class suspended_admin(admin.ModelAdmin):
     list_display = ('song_title', 'song_artist')
 
+class vote_option_admin(admin.ModelAdmin):
+    list_display = ('v_count', 'song_title', 'song_artist')
+
 # Register your models here.
 admin.site.register(votable_song, votable_admin)
 admin.site.register(suspended_song, suspended_admin)
-admin.site.register(vote_option)
+admin.site.register(vote_option, vote_option_admin)
