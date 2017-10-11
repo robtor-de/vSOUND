@@ -4,7 +4,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.auth import authenticate, login
-from vote.models import vote_option as vctl
+from vote.models import vote_option
 
 cli = MPDClient()
 
@@ -135,7 +135,7 @@ def admin_site(request):
         except:
             current_song = ""
             current_artist = ""
-        return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song, "artist": current_artist, "playlists": playlists})
+        return render(request, 'trctl/admin.html', {"playlist": playlist, "status": status, "stats": stats, "song": current_song, "artist": current_artist, "playlists": playlists, "vote_toggle": vote_option.is_active()})
     else:
         return redirect("/login/")
 
@@ -209,15 +209,19 @@ def delete_playlist(request, playlist_name):
     else:
         return redirect("/login/")
 
-def startvote(request):
+def vote_toggle(request):
     if(request.user.is_authenticated):
-        try:
-            vctl.vote_setup()
-        except:
-            return render(request, 'error.html', {'error_text': 'Die Playlist muss mehr Lieder enthalten'})
-        return redirect("/control/")
+        if(vote_option.is_active()):
+            vote_option.vote_destroy()
+            return redirect("/control/")
+        else:
+            try:
+                vote_option.vote_setup()
+            except:
+                return render(request, 'error.html', {'error_text': 'Die Playlist muss mehr Lieder enthalten'})
+            return redirect("/control/")
     else:
-        return render(request, 'error.html', {'error_text': 'Abstimmung konnte nicht gestartet werden'})
+        return redirect("/login/")
 
 def playlist(request):
     cli2 = MPDClient()

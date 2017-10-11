@@ -70,6 +70,10 @@ class vote_option(models.Model):
         votable_song.objects.all().delete()
         suspended_song.objects.all().delete()
         votable_song.auto_add()
+        vote_option.initiate_vote()
+
+    def vote_destroy():
+        vote_option.objects.all().delete()
 
     def initiate_vote():
         vote_option.objects.all().delete()
@@ -105,3 +109,9 @@ class vote_option(models.Model):
 
         suspended_song.check_for_unsuspend()
         return transfer_data
+
+    def is_active():
+        if(vote_option.objects.count() > 0):
+            return True
+        else:
+            return False

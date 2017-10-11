@@ -62,7 +62,12 @@
             {% endfor %}
           </div>
       </div>
-      <button type="button" class="btn btn-primary ml-3" onclick="location.href = '/startvote/'">Abstimmen</button>
+
+      {% if vote_toggle %}
+      <button type="button" class="btn btn-outline-danger ml-3" onclick="location.href = '/togglevote/'">Abstimmen beenden</button>
+      {% else %}
+      <button type="button" class="btn btn-primary ml-3" onclick="location.href = '/togglevote/'">Abstimmen</button>
+      {% endif %}
     </div>
     <span class="mx-auto"></span>
     <div class="inline-form mx-1 my-1">
