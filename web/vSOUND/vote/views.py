@@ -6,5 +6,8 @@ from vote.models import vote_option as o
 # Create your views here.
 
 def vote_view(request):
-
-    return HttpResponse(o.is_active())
+    if(o.is_active()):
+        options = o.objects.all()
+        return render(request, "vote/vote.html", {"options": options})
+    else:
+        return render(request, "vote/vote_inactive.html")
