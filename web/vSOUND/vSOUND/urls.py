@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^authenticate/', trctl_views.auth_handler),
     url(r'^logout/', auth_views.logout, {'next_page': '/login/'}),
     url(r'^control/search/', trctl_views.search, {'s_req': ''}),
+    url(r'^startvote/', trctl_views.startvote),
     url(r'^control/', trctl_views.admin_site),
     url(r'^playlist/', trctl_views.playlist)
 ]

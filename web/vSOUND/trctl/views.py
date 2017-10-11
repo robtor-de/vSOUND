@@ -4,6 +4,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.auth import authenticate, login
+from vote.models import vote_option as vctl
 
 cli = MPDClient()
 
@@ -207,6 +208,16 @@ def delete_playlist(request, playlist_name):
         return redirect("/control/")
     else:
         return redirect("/login/")
+
+def startvote(request):
+    if(request.user.is_authenticated):
+        try:
+            vctl.vote_setup()
+        except:
+            return render(request, 'error.html', {'error_text': 'Die Playlist muss mehr Lieder enthalten'})
+        return redirect("/control/")
+    else:
+        return render(request, 'error.html', {'error_text': 'Abstimmung konnte nicht gestartet werden'})
 
 def playlist(request):
     cli2 = MPDClient()
