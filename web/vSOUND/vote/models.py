@@ -18,11 +18,6 @@ def connect_mpd():
             #TODO: Add here better support
             print("MPD-Error")
 
-
-
-
-
-
 class votable_song(models.Model):
     file_name = models.TextField()
     song_title = models.TextField(default="missing-title")
@@ -86,6 +81,11 @@ class vote_option(models.Model):
                 print("Not enough votable songs available, just unsuspending")
                 suspended_song.check_for_unsuspend()
 
-    def vote_for(option):
-        n_val = option.v_count + 1
-        option.update(v_count=n_val)
+    def vote_for(primary_key):
+        target = vote_option.objects.get(pk=primary_key)
+        n_val = target.v_count + 1
+        vote_option.objects.filter(pk=primary_key).update(v_count=n_val)
+
+    def finish_vote():
+        o_votes = vote_option.objects.order_by('v_count')
+        return o_votes.last()
