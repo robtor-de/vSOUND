@@ -11,3 +11,7 @@ def vote_view(request):
         return render(request, "vote/vote.html", {"options": options})
     else:
         return render(request, "vote/vote_inactive.html")
+
+def vote_for(request, pk_vote):
+    o.vote_for(pk_vote)
+    return redirect("/vote/")
