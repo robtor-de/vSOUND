@@ -150,3 +150,6 @@ SUSPENDED_VAL = 10
 VOTE_OPTS = 3
 
 #SUSPENDED_VAL must be greater than the value of VOTE_OPTS
+
+#Value of songs in the playlist where the current index is when a new song will be voted
+RELOAD_SHIFT = 2

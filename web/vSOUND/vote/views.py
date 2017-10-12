@@ -75,4 +75,21 @@ def vote_for(request, pk_vote):
     return redirect("/vote/")
 
 def update(request):
-    return HttpResponse("ok")
+    global cli
+    connect_mpd()
+
+    if(o.is_active()):
+        playlist = cli.playlistinfo()
+        plst_id_active = cli.status()["songid"]
+        plst_id_request = playlist[- settings.RELOAD_SHIFT]['id']
+
+        if(plst_id_active >= plst_id_request):
+            result = o.finish_vote()
+
+            cli.add(result["file"])
+
+            return HttpResponse(result["title"])
+        else:
+            return HttpResponse("no_vote_needed")
+    else:
+        return HttpResponse("not_active")
