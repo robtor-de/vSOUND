@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>vSOUND|Suchen</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+  <link rel="icon" type="/static/favicon.png">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark bg-dark justify-content-left">
+  <form class="form-inline" action="/vote/search/" method="post">
+    {% csrf_token %}
+    <input class="form-control mr-sm-2" type="text" placeholder="Suchen" name="search_text" value="{{s_text}}">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suchen</button>
+    <button class="btn btn-outline-primary ml-1 my-2 my-sm-0" type="button" onclick="location.href = '/vote/'">Zurück</button>
+  </form>
+
+</nav>
+
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Titel</th>
+        <th>Künstler</th>
+        <th>+</th>
+      </tr>
+    </thead>
+
+    {% for entry in result %}
+      <tr>
+        <td>{{ entry.title }}</td>
+        <td>{{ entry.artist }}</td>
+        <td>
+          <form class="form-inline" method="post" action="/voteadd/">
+            {% csrf_token %}
+            <input type="hidden" name="add_song" value="{{ entry.file }}">
+            <input type="hidden" name="search_text" value="{{s_text}}">
+            <button class="btn btn-outline-success btn-sm mx-1" type="submit">+</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/popper.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+</body>
+</html>

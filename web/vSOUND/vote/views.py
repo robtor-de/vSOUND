@@ -104,3 +104,29 @@ def update(request):
             return HttpResponse("not_active")
     except:
         return HttpResponse("mpd_error")
+
+
+#Added custom song search option
+
+def search(request, s_req):
+    global cli
+    connect_mpd()
+    if(request.method == 'POST'):
+        #return results if the form is valid
+        #sets the search text to the s_req value --> search result should stay after adding title
+        if(s_req != ''):
+            result = cli.search("any", request.POST["search_text"])
+        else:
+            result = cli.search("any", request.POST["search_text"])
+        return render(request, 'vote/search.html', {'result': result, 's_text': request.POST['search_text']})
+    else:
+        return render(request, 'vote/search.html')
+
+def add(request):
+    global cli
+    connect_mpd()
+    try:
+        s_text = request.POST["search_text"]
+    except:
+        return render(request, 'error.html', {'error_text': 'Fehler beim Hinzufügen des Liedes'})
+    return search(request, s_text)

@@ -155,6 +155,8 @@ def search(request, s_req):
             return render(request, 'trctl/search.html', {'result': result, 's_text': request.POST['search_text']})
         else:
             return render(request, 'trctl/search.html')
+    else:
+        return redirect("/login/")
 
 #adds a requested song to the playlist
 def add(request):
