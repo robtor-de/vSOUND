@@ -41,6 +41,7 @@ def vote_view(request):
     if(o.is_active()):
         options = o.objects.all()
         act_cal = True
+        add_val = True
 
         #calculate percentage values
         per_vals = []
@@ -72,7 +73,12 @@ def vote_view(request):
         else:
             act_val = True
 
-        return render(request, "vote/vote.html", {"active": act_val, "status": status, "song": current_song, "artist": current_artist, "data": data})
+        if(o.objects.count() < settings.VOTE_OPTS + settings.USER_ADDABLE):
+            add_val = True
+        else:
+            add_val = False
+
+        return render(request, "vote/vote.html", {"active": act_val, "addable": add_val, "status": status, "song": current_song, "artist": current_artist, "data": data})
     else:
         return render(request, "vote/vote_inactive.html", {"status": status, "song": current_song, "artist": current_artist})
 
@@ -108,25 +114,22 @@ def update(request):
 
 #Added custom song search option
 
-def search(request, s_req):
+def search(request):
     global cli
     connect_mpd()
     if(request.method == 'POST'):
-        #return results if the form is valid
-        #sets the search text to the s_req value --> search result should stay after adding title
-        if(s_req != ''):
-            result = cli.search("any", request.POST["search_text"])
-        else:
-            result = cli.search("any", request.POST["search_text"])
+
+        result = cli.search("any", request.POST["search_text"])
         return render(request, 'vote/search.html', {'result': result, 's_text': request.POST['search_text']})
     else:
         return render(request, 'vote/search.html')
 
 def add(request):
-    global cli
-    connect_mpd()
     try:
-        s_text = request.POST["search_text"]
+        if(o.objects.count() < settings.VOTE_OPTS + settings.USER_ADDABLE):
+            o.objects.create(file_name=request.POST["file"], song_title=request.POST["song_title"], song_artist=request.POST["song_artist"], v_count=0)
+        else:
+            return render(request, 'error.html', {'error_text': 'Die bist leider zu spät, es wurden schon zu viele Lieder hinzugefügt'})
     except:
         return render(request, 'error.html', {'error_text': 'Fehler beim Hinzufügen des Liedes'})
-    return search(request, s_text)
+    return redirect("/vote/")

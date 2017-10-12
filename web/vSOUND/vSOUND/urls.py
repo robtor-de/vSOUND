@@ -41,7 +41,7 @@ urlpatterns = [
     url(r'^playlist/', trctl_views.playlist),
 
     #vote functions, public for all unauthenticated users
-    url(r'^vote/search/', vote_views.search, {'s_req': ''}),
+    url(r'^vote/search/', vote_views.search),
     url(r'^vote/', vote_views.vote_view),
     url(r'^voteadd/', vote_views.add),
     url(r'^votefor/pk=(?P<pk_vote>\d+)/$', vote_views.vote_for),

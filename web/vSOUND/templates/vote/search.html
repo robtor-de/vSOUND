@@ -37,7 +37,9 @@
         <td>
           <form class="form-inline" method="post" action="/voteadd/">
             {% csrf_token %}
-            <input type="hidden" name="add_song" value="{{ entry.file }}">
+            <input type="hidden" name="file" value="{{ entry.file }}">
+            <input type="hidden" name="song_title" value="{{ entry.title }}">
+            <input type="hidden" name="song_artist" value="{{ entry.artist }}">
             <input type="hidden" name="search_text" value="{{s_text}}">
             <button class="btn btn-outline-success btn-sm mx-1" type="submit">+</button>
           </form>
