@@ -71,25 +71,29 @@ def vote_view(request):
         return render(request, "vote/vote_inactive.html", {"status": status, "song": current_song, "artist": current_artist})
 
 def vote_for(request, pk_vote):
-    o.vote_for(pk_vote)
-    return redirect("/vote/")
+    try:
+        o.vote_for(pk_vote)
+        return redirect("/vote/")
+    except:
+        return redirect("/vote/")
 
 def update(request):
     global cli
     connect_mpd()
 
-    if(o.is_active()):
-        playlist = cli.playlistinfo()
-        plst_id_active = cli.status()["songid"]
-        plst_id_request = playlist[- settings.RELOAD_SHIFT]['id']
+    try:
+        if(o.is_active()):
+            playlist = cli.playlistinfo()
+            plst_id_active = cli.status()["songid"]
+            plst_id_request = playlist[- settings.RELOAD_SHIFT]['id']
 
-        if(plst_id_active >= plst_id_request):
-            result = o.finish_vote()
-
-            cli.add(result["file"])
-
-            return HttpResponse(result["title"])
+            if(plst_id_active >= plst_id_request):
+                result = o.finish_vote()
+                cli.add(result["file"])
+                return HttpResponse("finished_vote")
+            else:
+                return HttpResponse("no_vote_needed")
         else:
-            return HttpResponse("no_vote_needed")
-    else:
-        return HttpResponse("not_active")
+            return HttpResponse("not_active")
+    except:
+        return HttpResponse("mpd_error")
