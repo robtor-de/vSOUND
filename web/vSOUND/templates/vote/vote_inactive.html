@@ -1,1 +1,33 @@
-Leider keine Abstimmungen verfügbar, bitte warten!
+{% extends "vote/base.html" %}
+
+{% block content %}
+
+<div class="fluid-container justify-content-center mb-5 pb-5">
+  <div class="card mx-auto my-2 text-white bg-dark" style="width: 20rem;">
+    <div class="card-header">
+      <h4 class="card-title text-danger">Keine Abstimmungen</h4>
+    </div>
+    <div class="card-body">
+      <h6 class="card-text">Momentan sind keine Abstimmungen verfügbar, warten sie bis der Administrator eine Abstimmung startet</h6>
+    </div>
+    <div class="card-footer">
+      <a class="btn btn-primary" href="#">Aktualisieren</a>
+    </div>
+  </div>
+
+  <div class="card mx-auto my-2 text-white bg-dark" style="width: 20rem;">
+    <div class="card-header">
+      <h4 class="card-title text-info">Was ist das hier?</h4>
+    </div>
+    <div class="card-body">
+      <h5 class="card-text">Willkommen bei vSOUND</h5>
+      <p class="card-text">Hier werden bald Abstimmungen gestartet. Sie können zwischen Mehreren Musiktiteln wählen oder einen eigenen aus der Bibliothek vorschlagen.</p>
+    </div>
+    <div class="card-footer">
+      <p class="card-text text-warning">Viel Spaß!</p>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
