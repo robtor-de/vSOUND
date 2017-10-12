@@ -117,19 +117,24 @@ def update(request):
 def search(request):
     global cli
     connect_mpd()
-    if(request.method == 'POST'):
-
-        result = cli.search("any", request.POST["search_text"])
-        return render(request, 'vote/search.html', {'result': result, 's_text': request.POST['search_text']})
+    if(o.is_active()):
+        if(request.method == 'POST'):
+            result = cli.search("any", request.POST["search_text"])
+            return render(request, 'vote/search.html', {'result': result, 's_text': request.POST['search_text']})
+        else:
+            return render(request, 'vote/search.html')
     else:
-        return render(request, 'vote/search.html')
+        return render(request, 'error.html', {'error_text': 'Keine Abstimmung aktiv!'})
 
 def add(request):
-    try:
-        if(o.objects.count() < settings.VOTE_OPTS + settings.USER_ADDABLE):
-            o.objects.create(file_name=request.POST["file"], song_title=request.POST["song_title"], song_artist=request.POST["song_artist"], v_count=0)
-        else:
-            return render(request, 'error.html', {'error_text': 'Die bist leider zu spät, es wurden schon zu viele Lieder hinzugefügt'})
-    except:
-        return render(request, 'error.html', {'error_text': 'Fehler beim Hinzufügen des Liedes'})
-    return redirect("/vote/")
+    if(o.is_active()):
+        try:
+            if(o.objects.count() < settings.VOTE_OPTS + settings.USER_ADDABLE):
+                o.objects.create(file_name=request.POST["file"], song_title=request.POST["song_title"], song_artist=request.POST["song_artist"], v_count=0)
+            else:
+                return render(request, 'error.html', {'error_text': 'Die bist leider zu spät, es wurden schon zu viele Lieder hinzugefügt'})
+        except:
+            return render(request, 'error.html', {'error_text': 'Fehler beim Hinzufügen des Liedes'})
+        return redirect("/vote/")
+    else:
+        return render(request, 'error.html', {'error_text': 'Keine Abstimmung aktiv!'})
