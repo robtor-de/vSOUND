@@ -73,3 +73,6 @@ def vote_view(request):
 def vote_for(request, pk_vote):
     o.vote_for(pk_vote)
     return redirect("/vote/")
+
+def update(request):
+    return HttpResponse("ok")

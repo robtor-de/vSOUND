@@ -42,5 +42,6 @@ urlpatterns = [
 
     #vote functions, public for all unauthenticated users
     url(r'^vote/', vote_views.vote_view),
-    url(r'^votefor/pk=(?P<pk_vote>\d+)/$', vote_views.vote_for)
+    url(r'^votefor/pk=(?P<pk_vote>\d+)/$', vote_views.vote_for),
+    url(r'^update/', vote_views.update)
 ]
