@@ -153,3 +153,5 @@ VOTE_OPTS = 3
 
 #Value of songs in the playlist where the current index is when a new song will be voted
 RELOAD_SHIFT = 2
+
+VOICES_PER_SESSION = 3

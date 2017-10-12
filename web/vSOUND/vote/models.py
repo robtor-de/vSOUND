@@ -3,6 +3,8 @@ from django.conf import settings
 from django.utils import timezone
 from mpd import MPDClient
 from random import randint
+from django.contrib.sessions.models import Session
+from django.contrib.sessions.backends.db import SessionStore
 
 cli = MPDClient()
 
@@ -77,6 +79,19 @@ class vote_option(models.Model):
 
     def initiate_vote():
         vote_option.objects.all().delete()
+
+        #Clear all session vote values, that each user can leave votes
+        session_data = Session.objects.all()
+        session_keys = []
+
+        for session in session_data:
+            session_keys.append(session.session_key)
+
+        for key in session_keys:
+            s = SessionStore(session_key=key)
+            s["voices"] = 0
+            s.save()
+
 
         for x in range(0, settings.VOTE_OPTS):
             if(votable_song.objects.count() > 1):

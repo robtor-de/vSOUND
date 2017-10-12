@@ -40,6 +40,7 @@ def vote_view(request):
 
     if(o.is_active()):
         options = o.objects.all()
+        act_cal = True
 
         #calculate percentage values
         per_vals = []
@@ -66,13 +67,19 @@ def vote_view(request):
 
         data = zip(options, per_vals, r_col)
 
-        return render(request, "vote/vote.html", {"active": True, "status": status, "song": current_song, "artist": current_artist, "data": data})
+        if(request.session.get("voices", default=0) >= settings.VOICES_PER_SESSION):
+            act_val = False
+        else:
+            act_val = True
+
+        return render(request, "vote/vote.html", {"active": act_val, "status": status, "song": current_song, "artist": current_artist, "data": data})
     else:
         return render(request, "vote/vote_inactive.html", {"status": status, "song": current_song, "artist": current_artist})
 
 def vote_for(request, pk_vote):
     try:
         o.vote_for(pk_vote)
+        request.session["voices"] = request.session.get("voices", default=0) + 1
         return redirect("/vote/")
     except:
         return redirect("/vote/")
