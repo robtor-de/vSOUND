@@ -98,6 +98,9 @@ def update(request):
         if(o.is_active()):
             playlist = cli.playlistinfo()
             plst_id_active = cli.status()["songid"]
+
+
+            #TODO: fix this - here!
             plst_id_request = playlist[- settings.RELOAD_SHIFT]['id']
 
             if(plst_id_active >= plst_id_request):
