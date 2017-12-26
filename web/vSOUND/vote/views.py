@@ -40,7 +40,7 @@ def vote_view(request):
 
     if(o.is_active()):
         options = o.objects.all()
-        act_cal = True
+        act_val = True
         add_val = True
 
         #calculate percentage values
@@ -81,6 +81,56 @@ def vote_view(request):
         return render(request, "vote/vote.html", {"active": act_val, "addable": add_val, "status": status, "song": current_song, "artist": current_artist, "data": data})
     else:
         return render(request, "vote/vote_inactive.html", {"status": status, "song": current_song, "artist": current_artist})
+
+
+def app_vote_req(request):
+    global cli
+    connect_mpd()
+
+    playlist = cli.playlistinfo()
+    status = cli.status()
+
+    try:
+        current_song = playlist[int(status['song'])]["title"]
+        current_artist = playlist[int(status['song'])]["artist"]
+    except:
+        current_song = ""
+        current_artist = ""
+
+
+    if(o.is_active()):
+        options = o.objects.all()
+        act_cal = True
+
+        #calculate percentage values
+        per_vals = []
+
+        #calculates the sum of vote_voices
+        vote_sum = 0
+
+        for x in options.values("v_count"):
+            vote_sum = vote_sum + x["v_count"]
+
+        #calculates a percentage value for each individual progress bar in html template
+        for x in options.values("v_count"):
+            if(vote_sum > 0):
+                percentage = (x["v_count"]/vote_sum)*100
+                per_vals.append(int(percentage))
+            else:
+                per_vals.append(0)
+
+
+        if(request.session.get("voices", default=0) >= settings.VOICES_PER_SESSION):
+            act_val = False
+        else:
+            act_val = True
+
+        data = zip(options, per_vals)
+
+
+        return render(request, "vote/app.xml", {"active": act_val, "status": status, "song": current_song, "artist": current_artist, "data": data})
+    else:
+        return HttpResponse("inactive_ok")
 
 def vote_for(request, pk_vote):
     try:

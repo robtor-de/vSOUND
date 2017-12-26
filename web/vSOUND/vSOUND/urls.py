@@ -45,5 +45,6 @@ urlpatterns = [
     url(r'^vote/', vote_views.vote_view),
     url(r'^voteadd/', vote_views.add),
     url(r'^votefor/pk=(?P<pk_vote>\d+)/$', vote_views.vote_for),
-    url(r'^update/', vote_views.update)
+    url(r'^update/', vote_views.update),
+    url(r'^app/', vote_views.app_vote_req)
 ]

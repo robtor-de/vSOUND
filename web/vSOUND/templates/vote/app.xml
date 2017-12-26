@@ -1,0 +1,15 @@
+<vote_avail>
+{% if active %}
+  False
+{% else %}
+  True
+{% endif %}
+</vote_avail>
+
+  {% for item, per in data %}
+    <option>
+      <title>{{item.song_title}}</title>
+      <artist>{{item.song_artist}}</artist>
+      <votes>{{item.v_count}}</votes>
+    </option>
+  {% endfor %}
